@@ -1,5 +1,7 @@
 from datetime import datetime
 import json
+
+from fastapi.openapi.models import Schema
 from sqlalchemy import (
     String,
     Integer,
@@ -26,5 +28,19 @@ class Reply(Base):
     Content: Mapped[str] = mapped_column(String(10000))
     Floor: Mapped[int] = mapped_column(Integer)
 
+
+class ReplyCRUD():
+    @classmethod
+    def createReply(cls, receivedJson, newSession):
+        jsonDict = json.loads(receivedJson)
+        date_format = "%Y-%m-%d %H:%M:%S"
+        reply=Reply(
+            ShareId=jsonDict['ShareId'],
+            UserId=jsonDict['UserId'],
+            PostTime=datetime.strptime(jsonDict['PostTime'], date_format),
+            ReplyTo=jsonDict['ReplyTo'],
+            Content=jsonDict['Content'],
+            Floor=jsonDict['Floor'],
+        )
 
 
