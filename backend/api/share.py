@@ -1,33 +1,17 @@
 from datetime import datetime
 import json
 from sqlalchemy import (
-    String,
-    Integer,
-    DATETIME,
     select,
+    update
 )
-from sqlalchemy.orm import (
-    Mapped,
-    mapped_column
-)
-from backend.api import Base, session
-from backend.api.reply import Reply
 
 
-class Share(Base):
-    __tablename__ = 'shares'
-
-    ShareId: Mapped[int] = mapped_column(Integer, primary_key=True)
-    UserId: Mapped[int] = mapped_column(Integer)
-    Content: Mapped[str] = mapped_column(String(10000))
-    Title: Mapped[str] = mapped_column(String(50))
-    PostTime: Mapped[datetime] = mapped_column(DATETIME)
-    IsLocked: Mapped[bool] = mapped_column(Integer, default=False)
+from backend.api import Share, session
 
 
 class ShareCURD:
     @classmethod
-    def createShare(cls, receivedJson, newSession):
+    def createShare(cls, receivedJson: str, newSession):
         jsonDict = json.loads(receivedJson)
         date_format = "%Y-%m-%d %H:%M:%S"
         share = Share(
@@ -43,13 +27,11 @@ class ShareCURD:
             s.commit()
 
     @classmethod
-    def getShareByShareId(cls, shareId, newSession):
+    def getShareByShareId(cls, shareId: int, newSession):
         with newSession() as s:
             stmt = select(Share).where(Share.ShareId == shareId)
             result = s.scalars(stmt).all()
-            stmt = select(Reply).where(Reply.ShareId == shareId).order_by(Reply.PostTime.desc())
-            replies = s.scalars(stmt).all()
-            return result, replies
+            return result
 
     @classmethod
     def getAllShares(cls, newSession):
@@ -65,12 +47,13 @@ class ShareCURD:
             result = s.execute(stmt).scalars().all()
             for share in result:
                 s.delete(share)
+            s.commit()
 
-            stmt = select(Reply).where(Reply.ShareId == shareId)
-            result = s.execute(stmt).scalars().all()
-            for reply in result:
-                s.delete(reply)
-
+    @classmethod
+    def updateShareByShareId(cls, shareId, newContent, newSession):
+        with newSession() as s:
+            stmt = update(Share).where(Share.ShareId == shareId).values(content=newContent)
+            s.execute(stmt)
             s.commit()
 
 
@@ -83,10 +66,7 @@ if __name__ == '__main__':
                  '"Floor":2, '
                  '"IsLocked":false}')
     #ShareCURD.createShare(mainshare, session)
-    #ShareCURD.deleteShareByShareId(2, session)
-    #shares = ShareCURD.getAllShares(session)
-    main=ShareCURD.getShareByShareId(3, session)
-    shares
+    shares = ShareCURD.getAllShares(session)
     for s in shares:
         print(s.ShareId, s.UserId, s.Content, s.Title, s.PostTime)
 
