@@ -1,9 +1,23 @@
-import {Post} from "../Lib/typeDefinition";
+
+import {useParams} from "react-router";
 import {Col, Row} from "antd";
+import {NavLink} from "react-router-dom";
+import {GetPostPage} from "../Lib/lib";
 
-const PostPage : React.FC<{props:Post[]}> = ({props})=>{
-
-    return <></>
+const PostPage=() => {
+    const params = useParams();
+    let id =params.id
+    let props = GetPostPage()
+    return <div>
+        {props.map((post, index) => (
+            <Row key={index}>
+                <Col span={24}>
+                    <NavLink to={`/PostPage/${post.uniqueid}`}>{post.title}</NavLink>
+                    <p>{post.date.toDateString()}</p>
+                </Col>
+            </Row>
+        ))}
+    </div>
 }
 
 

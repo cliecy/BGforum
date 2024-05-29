@@ -2,8 +2,11 @@ export interface Post{
     title: string;
     body: string;
     date: Date;
+    uniqueid: string;
 }
+export interface Reply{
 
+}
 enum gender{
     male = 'male',
     female = 'female',
