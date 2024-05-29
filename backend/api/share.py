@@ -8,14 +8,10 @@ from sqlalchemy import (
     ForeignKey
 )
 from sqlalchemy.orm import (
-    DeclarativeBase,
     Mapped,
     mapped_column
 )
-
-
-class Base(DeclarativeBase):
-    pass
+from backend.api import Base, session
 
 
 class Share(Base):
@@ -56,8 +52,6 @@ def getAllShares(newSession):
     with newSession() as s:
         stmt = select(Share).order_by(Share.ShareId)
         result = s.execute(stmt).scalars().all()
-        for i in result:
-            print(i)
         return result
 
 
@@ -71,21 +65,6 @@ def deleteShareByShareId(shareId, newSession):
 
 
 if __name__ == '__main__':
-    from sqlalchemy import (
-        create_engine
-    )
-    from sqlalchemy.orm import (
-        sessionmaker,
-        DeclarativeBase
-    )
-
-
-    class Base(DeclarativeBase):
-        pass
-    # 创建engine
-    engine = create_engine('sqlite:///bbs.db', echo=True)
-    session = sessionmaker(bind=engine)
-    Base.metadata.create_all(bind=engine)
     mainshare = ('{"ShareId":null,'
                  '"UserId":2, '
                  '"Content":"World",'

@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from backend.api.share import (
-    getShareByShareId
+    getShareByShareId,
 )
+
 
 app = FastAPI()
 

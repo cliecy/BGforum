@@ -13,8 +13,7 @@ from sqlalchemy.orm import (
     mapped_column
 )
 
-class Base(DeclarativeBase):
-    pass
+from backend.api import Base, session
 
 
 class Reply(Base):
@@ -26,4 +25,6 @@ class Reply(Base):
     ReplyTo: Mapped[int] = mapped_column(Integer, nullable=True)
     Content: Mapped[str] = mapped_column(String(10000))
     Floor: Mapped[int] = mapped_column(Integer)
+
+
 

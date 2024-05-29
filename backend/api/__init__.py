@@ -11,8 +11,6 @@ class Base(DeclarativeBase):
     pass
 
 
-# 创建engine
-engine = create_engine('sqlite:///bbs.db', echo=True)
-newSession = sessionmaker(bind=engine)
+engine = create_engine('sqlite:///../bbs.db', echo=True)
+session = sessionmaker(bind=engine)
 Base.metadata.create_all(bind=engine)
-
