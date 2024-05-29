@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { HomeOutlined, LinkOutlined,LoginOutlined } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, theme, Image, Row, Col } from "antd";
+import { Breadcrumb, Layout, Menu, theme, Row, Col } from "antd";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import React from "react";
 
-const { Header, Content,Footer} = Layout;
+const { Header, Content} = Layout;
 
 const menuItems = [
   {
@@ -26,7 +26,7 @@ const menuItems = [
 
 const App = () => {
   const {
-    token: { colorBgContainer,borderRadiusLG },
+    token: { colorBgContainer },
   } = theme.useToken();
   const [currentMenu, setCurrentMenu] = useState({});
   // 定义selectedKeys，来控制菜单选中状态和切换页面
@@ -42,25 +42,9 @@ const App = () => {
   }, [location]);
 
   return (
-      <Layout style={{
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
-        display: "flex"
-      }
-      }>
+      <Layout >
         <Header style={{alignItems: "center"}}>
           <Row>
-            <Col flex="130px">
-              <NavLink to="/">
-                <Image
-                    src="favicon.ico"
-                    preview={false}
-                    style={{marginLeft: 0, marginRight: 10, width: "70%"}}
-                />
-
-              </NavLink>
-            </Col>
             <Col flex="auto">
               <Menu
                   theme="dark"
@@ -81,7 +65,7 @@ const App = () => {
 
 
 
-        <Content style={{padding: "30px", background: colorBgContainer}}>
+        <Content style={{padding: "25px", background: colorBgContainer}}>
           {location.pathname !== "/" && location.pathname !== "/Home" && (
               <Breadcrumb
                   items={[
@@ -97,7 +81,6 @@ const App = () => {
           )}
           <Outlet/>
         </Content>
-        {/*<Footer>created by cliecy</Footer>*/}
       </Layout>
   );
 };
