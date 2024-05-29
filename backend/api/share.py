@@ -25,7 +25,7 @@ class Share(Base):
     IsLocked: Mapped[bool] = mapped_column(Integer, default=False)
 
 
-class ShareCURD():
+class ShareCURD:
     @classmethod
     def createShare(cls, receivedJson, newSession):
         jsonDict = json.loads(receivedJson)

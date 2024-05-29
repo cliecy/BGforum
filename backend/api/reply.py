@@ -29,7 +29,7 @@ class Reply(Base):
     Floor: Mapped[int] = mapped_column(Integer)
 
 
-class ReplyCRUD():
+class ReplyCRUD:
     @classmethod
     def createReply(cls, receivedJson, newSession):
         jsonDict = json.loads(receivedJson)
