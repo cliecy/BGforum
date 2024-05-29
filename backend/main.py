@@ -83,7 +83,7 @@ def getAllShares():
 def deleteShareByShareId(shareId):
     with newSession() as s:
         stmt = select(Share).where(Share.ShareId == shareId)
-        result = s.execute(stmt)
+        result = s.execute(stmt).scalars().all()
         for share in result:
             s.delete(share)
         s.commit()
@@ -98,7 +98,7 @@ if __name__ == '__main__':
                  '"Floor":2, '
                  '"IsLocked":false}')
     createShare(mainshare)
-    deleteShareByShareId(1)
+    deleteShareByShareId(2)
     shares = getAllShares()
     for s in shares:
         print(s.ShareId, s.UserId, s.Content, s.Title, s.PostTime)
