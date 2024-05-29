@@ -6,6 +6,7 @@ import Home from './Pages/Home';
 import Register from './Pages/Register';
 import Login from './Pages/Login'
 import {createRoot} from "react-dom/client";
+import PostPage from './Pages/PostPage';
 
 
 
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       },
       {path:"/Login",
         element:<Login />
+      },
+      {path:"/PostPage/:id",
+      Component: details,
+        element:<PostPage props={}/>
       }
     ],
   },
