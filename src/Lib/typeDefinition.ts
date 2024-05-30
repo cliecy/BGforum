@@ -1,11 +1,16 @@
 export interface Post{
     title: string;
-    body: string;
+    content: string;
     date: Date;
-    uniqueid: string;
+    shareid: string;
+    authorid:string;
 }
 export interface Reply{
-
+    date: Date;
+    content: string;
+    shareid: string;
+    floor:number;
+    authorid:string;
 }
 enum gender{
     male = 'male',
