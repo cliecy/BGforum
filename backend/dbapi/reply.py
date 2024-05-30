@@ -7,25 +7,44 @@ from sqlalchemy import (
 )
 from backend.dbapi.models import Reply
 from backend.dbapi.database import getdb
+from backend.networkapi import schemas
 
 
 class BasicReplyCRUD:
     @classmethod
-    def createReply(cls, receivedJson):
+    def createReplyByJson(cls, receivedJson):
         s = getdb()
         jsonDict = json.loads(receivedJson)
         date_format = "%Y-%m-%d %H:%M:%S"
+        prevReplies = cls.getReplyAllByShareId(jsonDict['ShareId'])
         reply = Reply(
             ShareId=jsonDict['ShareId'],
             UserId=jsonDict['UserId'],
             PostTime=datetime.strptime(jsonDict['PostTime'], date_format),
             ReplyTo=jsonDict['ReplyTo'],
             Content=jsonDict['Content'],
-            Floor=jsonDict['Floor'],
+            Floor=len(prevReplies)+1,
         )
 
         s.add(reply)
         s.commit()
+
+    @classmethod
+    def createReplyByObject(cls, postedReply):
+        s = getdb()
+        prevReplies = cls.getReplyAllByShareId(postedReply.ShareId)
+        dbReply = Reply(
+            ShareId=postedReply.ShareId,
+            UserId=postedReply.UserId,
+            PostTime=postedReply.PostTime,
+            ReplyTo=postedReply.ReplyTo,
+            Content=postedReply.Content,
+            Floor=len(prevReplies)+1,
+        )
+        s.add(dbReply)
+        s.commit()
+
+
 
     # 查询一个帖子下的所有回复
     @classmethod
@@ -69,8 +88,8 @@ class BasicReplyCRUD:
 
 
 if __name__ == '__main__':
-    r1 = '{"ShareId":1, "UserId":1, "PostTime":"2024-05-30 01:00:00", "ReplyTo":1, "Content":"First reply", "Floor":1}'
-    #BasicReplyCRUD.createReply(r1)
+    r1 = '{"ShareId":1, "UserId":1, "PostTime":"2024-05-30 01:00:00", "ReplyTo":1, "Content":"First reply"}'
+    BasicReplyCRUD.createReplyByJson(r1)
     #BasicReplyCRUD.updateReply(1, 2, "updated reply")
     #replies = BasicReplyCRUD.getReplyAll(1)
     #for r in replies:

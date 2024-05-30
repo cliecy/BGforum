@@ -6,11 +6,12 @@ from sqlalchemy import (
 )
 from backend.dbapi.models import Share
 from backend.dbapi.database import getdb
+from backend.networkapi import schemas
 
 
 class BasicShareCRUD:
     @classmethod
-    def createShare(cls, receivedJson: str):
+    def createShareByJson(cls, receivedJson: str):
         s = getdb()
         jsonDict = json.loads(receivedJson)
         date_format = "%Y-%m-%d %H:%M:%S"
@@ -23,6 +24,19 @@ class BasicShareCRUD:
             IsLocked=jsonDict['IsLocked'],
         )
         s.add(share)
+        s.commit()
+
+    @classmethod
+    def createShareByObject(cls, postedShare: schemas.ShareCreate):
+        s = getdb()
+        dbShare = Share(
+            UserId=postedShare.UserId,
+            Content=postedShare.Content,
+            Title=postedShare.Title,
+            PostTime=postedShare.PostTime,
+            IsLocked=postedShare.IsLocked,
+        )
+        s.add(dbShare)
         s.commit()
 
     @classmethod
@@ -64,7 +78,7 @@ if __name__ == '__main__':
                  '"PostTime":"2024-05-29 00:00:00",'
                  '"Floor":2, '
                  '"IsLocked":false}')
-    BasicShareCRUD.createShare(mainshare)
+    BasicShareCRUD.createShareByJson(mainshare)
     shares = BasicShareCRUD.getAllShares()
     for sh in shares:
         print(sh.ShareId, sh.UserId, sh.Content, sh.Title, sh.PostTime)
