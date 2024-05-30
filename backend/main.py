@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from backend.api.share import (
+from backend.dbapi.share import (
     getShareByShareId,
 )
 

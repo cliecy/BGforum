@@ -1,10 +1,7 @@
 from datetime import datetime
 
-from sqlalchemy import create_engine, Integer, DATETIME, ForeignKey, String
-from sqlalchemy.orm import (
-    sessionmaker,
-    DeclarativeBase, Mapped, mapped_column
-)
+from sqlalchemy import Integer, String, DATETIME, ForeignKey
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
 class Base(DeclarativeBase):
@@ -31,8 +28,3 @@ class Reply(Base):
     ReplyTo: Mapped[int] = mapped_column(Integer, nullable=True)
     Content: Mapped[str] = mapped_column(String(10000))
     Floor: Mapped[int] = mapped_column(Integer)
-
-
-engine = create_engine('sqlite:///../bbs.db', echo=True)
-session = sessionmaker(engine)
-Base.metadata.create_all(bind=engine)
