@@ -13,7 +13,7 @@ class Share(Base):
     __tablename__ = 'shares'
 
     ShareId: Mapped[int] = mapped_column(Integer, primary_key=True)
-    UserId: Mapped[int] = mapped_column(Integer)
+    UserId: Mapped[int] = mapped_column(Integer, ForeignKey('User.UserId'))
     Content: Mapped[str] = mapped_column(String(10000))
     Title: Mapped[str] = mapped_column(String(50))
     PostTime: Mapped[datetime] = mapped_column(DATETIME)
@@ -25,7 +25,7 @@ class Reply(Base):
     __tablename__ = 'reply'
     ReplyId: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     ShareId: Mapped[int] = mapped_column(Integer, ForeignKey('shares.ShareId'), index=True)
-    UserId: Mapped[int] = mapped_column(Integer)
+    UserId: Mapped[int] = mapped_column(Integer, ForeignKey('User.UserId'), index=True)
     PostTime: Mapped[datetime] = mapped_column(DATETIME)
     ReplyTo: Mapped[int] = mapped_column(Integer, nullable=True)
     Content: Mapped[str] = mapped_column(String(10000))

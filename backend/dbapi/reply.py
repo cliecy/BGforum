@@ -44,8 +44,6 @@ class BasicReplyCRUD:
         s.add(dbReply)
         s.commit()
 
-
-
     # 查询一个帖子下的所有回复
     @classmethod
     def getReplyAllByShareId(cls, shareId):
