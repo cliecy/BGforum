@@ -1,18 +1,23 @@
 export interface Post{
     title: string;
-    body: string;
+    content: string;
     date: Date;
-    uniqueid: string;
+    shareid: string;
+    authorid:string;
 }
 export interface Reply{
-
+    date: Date;
+    content: string;
+    shareid: string;
+    floor:number;
+    authorid:string;
 }
-enum gender{
+export enum gender{
     male = 'male',
     female = 'female',
 }
 
-enum userclass{
+export enum userclass{
     Admin = 'admin',
     Normal="Normal"
 }

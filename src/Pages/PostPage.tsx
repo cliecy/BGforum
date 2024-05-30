@@ -12,7 +12,7 @@ const PostPage=() => {
         {props.map((post, index) => (
             <Row key={index}>
                 <Col span={24}>
-                    <NavLink to={`/PostPage/${post.uniqueid}`}>{post.title}</NavLink>
+                    <NavLink to={`/PostPage/${post.shareid}`}>{post.title}</NavLink>
                     <p>{post.date.toDateString()}</p>
                 </Col>
             </Row>

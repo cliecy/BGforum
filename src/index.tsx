@@ -1,5 +1,4 @@
 import './static/index.css';
-// @ts-ignore
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from './Pages/Home';
 import Register from './Pages/Register';
@@ -16,11 +15,11 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "/",
+        path: "/Home",
         element: <Home />,
       },
       {
-        path: "/Home",
+        path: "/Home/:id",
         element: <Home />,
       },
       {
