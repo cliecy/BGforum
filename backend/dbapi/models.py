@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import Integer, String, DATETIME, ForeignKey
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
 class Base(DeclarativeBase):
@@ -17,6 +17,7 @@ class Share(Base):
     Title: Mapped[str] = mapped_column(String(50))
     PostTime: Mapped[datetime] = mapped_column(DATETIME)
     IsLocked: Mapped[bool] = mapped_column(Integer, default=False)
+    Replies = relationship("Reply", backref="Share")
 
 
 class Reply(Base):

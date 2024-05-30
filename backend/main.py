@@ -1,23 +1,10 @@
 from fastapi import FastAPI
-from backend.dbapi.share import (
-    getShareByShareId,
-)
-
+from networkapi.routers import router
 
 app = FastAPI()
 
+app.include_router(router, prefix="/shares", tags=["shares"])
 
-@app.get("/shares/{shareId}")
-async def getShare(shareId: int):
-    shares = getShareByShareId(shareId)
-    if shares:
-        share = shares[0]
-        return {
-            "ShareId": share.ShareId,
-            "UserId": share.UserId,
-            "Content": share.Content,
-            "Title": share.Title,
-            "PostTime": share.PostTime,
-            "IsLocked": share.IsLocked
-        }
-    return {"error": "Share not found"}
+if __name__=='__main__':
+    import uvicorn
+    uvicorn.run(app, host='0.0.0.0', port=8000)
