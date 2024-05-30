@@ -9,11 +9,11 @@ const PostPage=() => {
     let id =params.id
     let props = GetPostPage()
     return <div>
-        {props.map((post, index) => (
+        {props.map((reply, index) => (
             <Row key={index}>
                 <Col span={24}>
-                    <NavLink to={`/PostPage/${post.shareid}`}>{post.title}</NavLink>
-                    <p>{post.date.toDateString()}</p>
+                    <p>{reply.content}</p>
+                    <p>{reply.authorid}</p>
                 </Col>
             </Row>
         ))}
