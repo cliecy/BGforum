@@ -11,7 +11,6 @@ class ShareCreate(BaseModel):
     PostTime: datetime
     IsLocked: bool = False
 
-
 class ShareResponse(BaseModel):
     ShareId: int
     UserId: int
