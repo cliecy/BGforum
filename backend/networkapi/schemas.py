@@ -30,7 +30,6 @@ class ReplyCreate(BaseModel):
     PostTime: datetime
     ReplyTo: Optional[int] = None
     Content: str
-    Floor: int
 
 
 class ReplyResponse(BaseModel):
