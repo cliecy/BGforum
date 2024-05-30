@@ -64,15 +64,10 @@ if __name__ == '__main__':
                  '"PostTime":"2024-05-29 00:00:00",'
                  '"Floor":2, '
                  '"IsLocked":false}')
-    #ShareCURD.createShare(mainshare)
+    BasicShareCRUD.createShare(mainshare)
     shares = BasicShareCRUD.getAllShares()
     for sh in shares:
         print(sh.ShareId, sh.UserId, sh.Content, sh.Title, sh.PostTime)
-
-    shares = BasicShareCRUD.getShareByShareId(1)
-    for sh in shares:
-        print(sh.ShareId, sh.UserId, sh.Content, sh.Title, sh.PostTime)
-
 
 
 

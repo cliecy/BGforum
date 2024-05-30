@@ -2,6 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import Integer, String, DATETIME, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from backend.dbapi.database import engine
 
 
 class Base(DeclarativeBase):
@@ -29,3 +30,6 @@ class Reply(Base):
     ReplyTo: Mapped[int] = mapped_column(Integer, nullable=True)
     Content: Mapped[str] = mapped_column(String(10000))
     Floor: Mapped[int] = mapped_column(Integer)
+
+
+Base.metadata.create_all(bind=engine)

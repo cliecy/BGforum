@@ -2,16 +2,20 @@ from fastapi import APIRouter
 from backend.dbapi.operations import (
     Operations,
 )
-
+from backend.networkapi import schema
 
 router = APIRouter()
 
 
-@router.get('/shares')
+@router.get('/', response_model=list[schema.ShareResponse])
 def getShares():
-    Operations.getAllShares()
+    result = Operations.getAllShares()
+    return result
 
-@router.get('/shares/{shareId}')
+
+@router.get('/{shareId}', response_model=schema.ShareAndRepliesResponse)
 def getReplies(shareId: int):
-    Operations.getReplyAllByShareId(shareId)
+    share = Operations.getShareByShareId(shareId)
+    replies = Operations.getReplyAllByShareId(shareId)
+    return {"share": share, "replies": replies}
 
