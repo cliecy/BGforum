@@ -1,4 +1,4 @@
-import {Post} from "./typeDefinition";
+import {Post, User,gender, userclass,} from "./typeDefinition";
 
 
 export function GetPostPage():Post[]{
@@ -22,4 +22,14 @@ export function GetAllPost():Post[]{
         shareid:"1",
         authorid:"3"
     }]
+}
+
+export function GetUserInfo():User{
+    return {
+        name:"cliecy",
+        userid:"1",
+        userclass:userclass.Admin,
+        gender: gender.female,
+        lastlogintime:new Date()
+    }
 }

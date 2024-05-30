@@ -12,12 +12,12 @@ export interface Reply{
     floor:number;
     authorid:string;
 }
-enum gender{
+export enum gender{
     male = 'male',
     female = 'female',
 }
 
-enum userclass{
+export enum userclass{
     Admin = 'admin',
     Normal="Normal"
 }
