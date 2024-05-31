@@ -3,7 +3,7 @@ from ..dbapi.operations import (
     Operations,
 )
 from ..networkapi import schemas
-
+from fastapi import HTTPException
 router = APIRouter()
 
 
@@ -32,7 +32,10 @@ def createReply(reply: schemas.ReplyCreate):
 
 @router.post('/users', response_model=schemas.UserCreate)
 def registerUser(user: schemas.UserCreate):
-    Operations.createUserbyObject(user)
+    try:
+        Operations.createUserbyObject(user)
+    except user.password != user.passwordconfirm:
+        raise HTTPException(status_code=400, detail='The password is not same in two times you inputted.')
 
 
 @router.post('users/login', response_model=schemas.UserLogin)
