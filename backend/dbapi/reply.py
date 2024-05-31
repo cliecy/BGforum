@@ -5,9 +5,9 @@ from sqlalchemy import (
     update,
     and_
 )
-from backend.dbapi.models import Reply
-from backend.dbapi.database import getdb
-from backend.networkapi import schemas
+from BGforum.backend.dbapi.models import Reply
+from BGforum.backend.dbapi.database import getdb
+from BGforum.backend.networkapi import schemas
 
 
 class BasicReplyCRUD:
