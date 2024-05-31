@@ -61,6 +61,7 @@ class UserCreate(BaseModel):
     LastLogintime: datetime
     gender: int
     password: str
+    passwordconfirm: str
     numofShares: int
 
 
