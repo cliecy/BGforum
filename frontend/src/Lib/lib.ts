@@ -1,20 +1,22 @@
-import { Post, Reply, User, gender, isPost, userclass, } from "./typeDefinition";
+import { Post, Reply, Share, User, gender, isPost, userclass, } from "./typeDefinition";
 import axios from "axios";
 
 
-
-
-
-export function GetPostPage(): Reply[] {
-    var shareid = 0;
-
-    return [{
-        date: new Date(),
-        content: "ssss",
-        shareid: "123",
-        floor: 2323,
-        authorid: "sdadas"
-    }]
+export async function GetPostPage(shareId: string): Promise<Share> {
+    let mygets: Share = {share: [], replies: []};
+    try{
+        await axios.get(`http://127.0.0.1:8000/shares/${shareId}`).then(function (response){
+            console.log(response);
+            mygets = response.data;
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+    catch{
+        console.log("ERRORS BUT NOT AXIOS ERROR")
+    }
+    console.log(mygets);
+    return mygets;
 }
 
 

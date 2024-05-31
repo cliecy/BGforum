@@ -133,6 +133,7 @@ class UserCURD:
             s.commit()
         except NoResultFound:
             raise HTTPException(status_code=404, detail="User not found")
+
     @classmethod
     async def userLogin(cls, userinfo: schemas.UserLogin):
         s = getdb()
