@@ -40,9 +40,10 @@ interface PostGridProps {
   currentPage: number;
   pageSize: number;
   onPageChange: (page: number) => void;
+  onShowSizeChange: (current:number,pageSize:number) =>void;
 }
 
-const PostGrid: React.FC<PostGridProps> = ({ posts, currentPage, pageSize, onPageChange }) => {
+const PostGrid: React.FC<PostGridProps> = ({ posts, currentPage, pageSize, onPageChange,onShowSizeChange }) => {
   const startIndex = (currentPage - 1) * pageSize;
   const currentPosts = posts.slice(startIndex, startIndex + pageSize);
 
@@ -56,7 +57,7 @@ const PostGrid: React.FC<PostGridProps> = ({ posts, currentPage, pageSize, onPag
           </Col>
         </Row>
       ))}
-      <MPagination total={posts.length} pageSize={pageSize} onPageChange={onPageChange} />
+      <MPagination total={posts.length} pageSize={pageSize} onPageChange={onPageChange} onShowSizeChange={onShowSizeChange} />
     </>
   );
 };

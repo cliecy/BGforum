@@ -1,29 +1,50 @@
 import { useState, useEffect } from "react";
 import { HomeOutlined, LinkOutlined, LoginOutlined } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, theme, Row, Col } from "antd";
+import { Breadcrumb, Layout, Menu, theme, Row, Col, Button } from "antd";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import React from "react";
+import storageUtils from "../Lib/storageUtils";
+import { Logout } from "../Lib/lib";
 
 const { Header, Content } = Layout;
-const menuItems = [
-  {
-    label: "Home",
-    key: "/Home",
-    icon: <HomeOutlined />,
-  },
-  {
-    label: "Register",
-    key: "/Register",
-    icon: <LinkOutlined />,
-  },
-  {
-    label: "Login",
-    key: "/Login",
-    icon: <LoginOutlined />,
-  },
-];
+
+
+const Whetherlogin = ()=>{
+  if(storageUtils.getUser())
+    return <Button onClick={Logout}></Button>
+  else{
+    return <></>
+  }
+}
 
 const MHeader = () => {
+  let menuItems;
+  if(storageUtils.getUser()==true){
+    menuItems = [
+      {
+        label: "Home",
+        key: "/",
+        icon: <HomeOutlined />,
+      },
+    ];
+  }
+  else {
+    menuItems =[    {
+      label: "Home",
+      key: "/",
+      icon: <HomeOutlined />,
+    },{
+      label: "Register",
+      key: "/Register",
+      icon: <LinkOutlined />,
+    },
+    {
+      label: "Login",
+      key: "/Login",
+      icon: <LoginOutlined />,
+    },]
+  }
+
   const {
     token: { colorBgContainer,borderRadiusLG,colorBgElevated },
   } = theme.useToken();
@@ -57,6 +78,7 @@ const MHeader = () => {
                 };
               })}
             />
+            <Whetherlogin></Whetherlogin>
           </Col>
         </Row>
       </Header>

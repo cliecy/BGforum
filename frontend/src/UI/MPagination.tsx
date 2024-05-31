@@ -23,9 +23,10 @@ interface MPaginationProps {
   total: number;
   pageSize: number;
   onPageChange: (page: number) => void;
+  onShowSizeChange: (current:number,pageSize:number) => void;
 }
 
-const MPagination: React.FC<MPaginationProps> = ({ total, pageSize, onPageChange }) => {
+const MPagination: React.FC<MPaginationProps> = ({ total, pageSize, onPageChange,onShowSizeChange }) => {
   const handleChange: PaginationProps['onChange'] = (pageNumber) => {
     onPageChange(pageNumber);
   };
@@ -37,6 +38,7 @@ const MPagination: React.FC<MPaginationProps> = ({ total, pageSize, onPageChange
       total={total}
       pageSize={pageSize}
       onChange={handleChange}
+      onShowSizeChange={onShowSizeChange}
     />
   );
 };
