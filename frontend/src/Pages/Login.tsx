@@ -1,6 +1,15 @@
 import type { FormProps } from 'antd';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { LoginFunc } from '../Lib/lib';
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
+import storageUtils from '../Lib/storageUtils';
+
+const Redirect = ()=>{
+    const Navigate = useNavigate()
+    useEffect(()=>{Navigate("/")})
+    return <></>
+}
 export type FieldType = {
     userName?: string;
     password?: string;
@@ -16,6 +25,7 @@ const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = async (errorInfo)
 };
 
 const Login: React.FC = () => (
+    
     <Form
         name="basic"
         labelCol={{ span: 8 }}
@@ -26,6 +36,7 @@ const Login: React.FC = () => (
         onFinishFailed={onFinishFailed}
         autoComplete="off"
     >
+        {storageUtils.getUser() && <Redirect/>}
         <Form.Item<FieldType>
             label="Username"
             name="userName"

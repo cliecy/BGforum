@@ -20,10 +20,10 @@ export function GetPostPage(): Reply[] {
 export async function GetAllPost(): Promise<Post[]> {
     // 发送 POST 请求
     // 为给定 ID 的 user 创建请求
-    let myposts:Post[] = [];
+    let myposts: Post[] = [];
     let myresponse;
 
-    try{
+    try {
         await axios.get('http://127.0.0.1:8000/shares').then(function (response) {
             console.log(response);
             myresponse = response
@@ -32,60 +32,63 @@ export async function GetAllPost(): Promise<Post[]> {
             console.log(error);
         });
     }
-    catch{
+    catch {
         console.log("ERRORS BUT NOT AXIOS ERROR")
     }
     console.log(myposts)
     return myposts
 }
 
-export async function MakePost(post:Post):Promise<void>{
-    try{
-        await axios.post("http://127.0.0.1:8000/shares",post).then(function (response) {
+export async function MakePost(post: Post): Promise<void> {
+    try {
+        await axios.post("http://127.0.0.1:8000/shares", post).then(function (response) {
             console.log(response);
         }).catch(function (error) {
             console.log(error);
         });
-    }catch{
+    } catch {
         console.log("ERRORS BUT NOT AXIOS ERROR")
     }
 }
 // export function
 
 
-interface LoginStatus{
-    status:string;
-    message:string
+interface LoginStatus {
+    status: string;
+    message: string
 }
 
-export async function LoginFunc(values:FieldType): Promise<void>{
-    let myresponse:LoginStatus = {status:"",message:""};
-    try{
-        await axios.post('http://127.0.0.1:8000/users/login',{UserName:values.userName,password:values.password}).then(function (response) {
+export async function LoginFunc(values: FieldType): Promise<void> {
+    let myresponse: LoginStatus = { status: "", message: "" };
+    try {
+        await axios.post('http://127.0.0.1:8000/users/login', { UserName: values.userName, password: values.password }).then(function (response) {
             console.log(response);
             myresponse = response.data
         }).catch(function (error) {
             console.log(error);
         });
-        if(myresponse.status==="success"){
+        if (myresponse.status === "Success") {
             console.log("LOGIN SUCCESS")
-            if(values.userName != undefined && values.password!= undefined)
-                if(values.remember==true)
-                    storageUtils.saveUser({username:values.userName,password:values.password})
+            if (values.userName != undefined && values.password != undefined)
+                if (values.remember == true) {
+                    console.log(values)
+                    storageUtils.saveUser({ username: values.userName, password: values.password })
+                }
         }
     }
-    catch{
+    catch {
         console.log("ERRORS BUT NOT AXIOS ERROR")
     }
-
+    window.location.reload()
 }
 
 // export async function RegisterFunc(values:)
 
-export function Logout():void{
-    if(storageUtils.getUser())
+export function Logout(): void {
+    if (storageUtils.getUser())
         storageUtils.removeUser()
-    else{
+    else {
         console.log("already log out")
     }
+    window.location.reload()
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { HomeOutlined, LinkOutlined, LoginOutlined } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme, Row, Col, Button } from "antd";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import React from "react";
 import storageUtils from "../Lib/storageUtils";
 import { Logout } from "../Lib/lib";
@@ -10,8 +10,14 @@ const { Header, Content } = Layout;
 
 
 const Whetherlogin = ()=>{
+  const LogoutAndNavigate=()=>{
+    Logout()
+    useNavigate("/")
+  }
+
+
   if(storageUtils.getUser())
-    return <Button onClick={Logout}></Button>
+    return <Button onClick={Logout}>LOGOUT</Button>
   else{
     return <></>
   }
@@ -64,6 +70,9 @@ const MHeader = () => {
     <>
       <Header style={{ alignItems: "center" }}>
         <Row>
+          <Col>
+          <Whetherlogin></Whetherlogin>
+          </Col>
           <Col flex="auto">
             <Menu
               theme="dark"
@@ -78,7 +87,6 @@ const MHeader = () => {
                 };
               })}
             />
-            <Whetherlogin></Whetherlogin>
           </Col>
         </Row>
       </Header>

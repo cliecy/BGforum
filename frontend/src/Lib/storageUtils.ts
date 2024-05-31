@@ -17,7 +17,7 @@ export default {
     // 读取用户
     getUser():boolean {
         const result = localStorage.getItem("username")
-        if(result!=null){
+        if(result!=null && result!=""){
             console.log(`username:${result}`)
             return true
         }else{
