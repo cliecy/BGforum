@@ -1,5 +1,7 @@
 import { Post, Reply, Share, User, gender, isPost, userclass, } from "./typeDefinition";
 import axios from "axios";
+import { FieldType } from "../Pages/Login";
+import storageUtils from "./storageUtils";
 
 
 export async function GetPostPage(shareId: string): Promise<Share> {
@@ -53,7 +55,7 @@ export async function MakePost(post:Post):Promise<void>{
         console.log("ERRORS BUT NOT AXIOS ERROR")
     }
 }
-// export function 
+// export function
 
 
 interface LoginStatus{
