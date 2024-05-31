@@ -7,9 +7,9 @@ from sqlalchemy import (
 from fastapi import HTTPException
 from sqlalchemy.exc import NoResultFound
 
-from backend.dbapi.models import Share
-from backend.dbapi.database import getdb
-from backend.networkapi import schemas
+from ..dbapi.models import Share
+from ..dbapi.database import getdb
+from ..networkapi import schemas
 
 
 
@@ -87,12 +87,7 @@ class BasicShareCRUD:
         except NoResultFound:
             raise HTTPException(status_code=404, detail="Share not found")
 
-    @classmethod
-    def userLogin(cls, userinfo: schemas.UserLogin):
-        try:
-            username = userinfo.username
-        except HTTPException as e:
-            raise
+
 if __name__ == '__main__':
     mainshare = ('{"ShareId":null,'
                  '"UserId":2, '
