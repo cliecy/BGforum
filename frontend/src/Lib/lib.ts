@@ -1,9 +1,7 @@
 import { Post, Reply, User, gender, isPost, userclass, } from "./typeDefinition";
 import axios from "axios";
-
-
-
-
+import { FieldType } from "../Pages/Login";
+import storageUtils from "./storageUtils";
 
 export function GetPostPage(): Reply[] {
     var shareid = 0;
@@ -23,16 +21,7 @@ export async function GetAllPost(): Promise<Post[]> {
     // 为给定 ID 的 user 创建请求
     let myposts:Post[] = [];
     let myresponse;
-    let data ={Title: "ABC", Content: "SSSS", PostTime:"2013-03-24 13:30:20", UserId: 2 ,IsLocked:false}
-    try{
-        await axios.post("http://127.0.0.1:8000/shares",data).then(function (response) {
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error);
-        });
-    }catch{
-        console.log("ERRORS BUT NOT AXIOS ERROR")
-    }
+
     try{
         await axios.get('http://127.0.0.1:8000/shares').then(function (response) {
             console.log(response);
@@ -49,12 +38,51 @@ export async function GetAllPost(): Promise<Post[]> {
     return myposts
 }
 
-export function GetUserInfo(): User {
-    return {
-        name: "cliecy",
-        userid: "1",
-        userclass: userclass.Admin,
-        gender: gender.female,
-        lastlogintime: new Date()
+export async function MakePost(post:Post):Promise<void>{
+    try{
+        await axios.post("http://127.0.0.1:8000/shares",post).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }catch{
+        console.log("ERRORS BUT NOT AXIOS ERROR")
+    }
+}
+// export function 
+
+
+interface LoginStatus{
+    status:string;
+    message:string
+}
+
+export async function LoginFunc(values:FieldType): Promise<void>{
+    let myresponse:LoginStatus = {status:"",message:""};
+    try{
+        await axios.get('http://127.0.0.1:8000/users/login').then(function (response) {
+            console.log(response);
+            myresponse = response.data
+        }).catch(function (error) {
+            console.log(error);
+        });
+        if(myresponse.status==="success"){
+            console.log("LOGIN SUCCESS")
+            if(values.username != undefined && values.password!= undefined)
+                if(values.remember==true)
+                    storageUtils.saveUser({username:values.username,password:values.password})
+        }
+    }
+    catch{
+        console.log("ERRORS BUT NOT AXIOS ERROR")
+    }
+
+}
+
+export function Logout():void{
+    if(storageUtils.getUser())
+        storageUtils.removeUser()
+    else{
+        console.log("already log out")
     }
 }

@@ -37,6 +37,7 @@ import { useParams } from 'react-router';
 import PostGrid from '../UI/PostGrid';
 import { GetAllPost } from '../Lib/lib';
 import { Post } from '../Lib/typeDefinition';
+import MakePostComponent from '../UI/MakePostComponent';
 
 const placeholderPosts: Post[] = [
     {ShareId:undefined,Title: "ABC", Content: "SSSS", PostTime:"2013-03-24 13:30:20", UserId: 2 ,IsLocked:false}];
@@ -45,14 +46,12 @@ const Home: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize,setpageSize] = useState<number>(20); // 每页显示的帖子数量
-  const params = useParams<{ id: string }>();
 
   useEffect(() => {
     const fetchPosts = async () => {
       const myALLPOSTS = await GetAllPost();
       setPosts(myALLPOSTS);
     };
-
     fetchPosts();
   }, []);
 
@@ -64,16 +63,19 @@ const Home: React.FC = () => {
     setpageSize(pageSize);
   }
 
-  const id = params.id || 'NOPARAM';
 
   return (
-    <PostGrid
-      posts={id === 'NOPARAM' ? placeholderPosts : posts}
+    <>
+        <PostGrid
+      posts={posts}
       currentPage={currentPage}
       pageSize={pageSize}
       onPageChange={handlePageChange}
       onShowSizeChange={handleShowSizeChange}
     />
+    <MakePostComponent></MakePostComponent>
+    </>
+
   );
 };
 

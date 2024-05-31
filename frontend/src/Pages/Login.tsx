@@ -1,17 +1,19 @@
 import type { FormProps } from 'antd';
 import { Button, Checkbox, Form, Input } from 'antd';
-
-type FieldType = {
+import { LoginFunc } from '../Lib/lib';
+export type FieldType = {
     username?: string;
     password?: string;
-    remember?: string;
+    remember?: boolean;
 };
 
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     console.log('Success:', values);
+    await LoginFunc(values)
+
 };
 
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
+const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = async (errorInfo) => {
     console.log('Failed:', errorInfo);
 };
 
