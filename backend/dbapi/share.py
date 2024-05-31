@@ -4,9 +4,14 @@ from sqlalchemy import (
     select,
     update
 )
+from fastapi import HTTPException
+from sqlalchemy.exc import NoResultFound
+
 from backend.dbapi.models import Share
 from backend.dbapi.database import getdb
 from backend.networkapi import schemas
+
+
 
 
 class BasicShareCRUD:
@@ -43,14 +48,20 @@ class BasicShareCRUD:
     def getShareByShareId(cls, shareId: int):
         s = getdb()
         stmt = select(Share).where(Share.ShareId == shareId)
-        result = s.scalars(stmt).all()
+        try:
+            result = s.scalars(stmt).all()
+        except NoResultFound:
+            raise HTTPException(status_code=404, detail="Share not found")
         return result
 
     @classmethod
     def getAllShares(cls):
         s = getdb()
         stmt = select(Share).order_by(Share.ShareId)
-        result = s.execute(stmt).scalars().all()
+        try:
+            result = s.execute(stmt).scalars().all()
+        except NoResultFound:
+            raise HTTPException(status_code=404, detail="Database Empty")
         return result
 
     @classmethod
@@ -65,9 +76,16 @@ class BasicShareCRUD:
     @classmethod
     def updateShareByShareId(cls, shareId, newContent):
         s = getdb()
-        stmt = update(Share).where(Share.ShareId == shareId).values(content=newContent)
-        s.execute(stmt)
-        s.commit()
+        try:
+            stmt = select(Share).where(Share.ShareId == shareId)
+            result = s.execute(stmt).scalars().first()
+            if result.IsLocked:
+                raise HTTPException(status_code=404, detail="Share has been locked")
+            stmt = update(Share).where(Share.ShareId == shareId).values(content=newContent)
+            s.execute(stmt)
+            s.commit()
+        except NoResultFound:
+            raise HTTPException(status_code=404, detail="Share not found")
 
 
 if __name__ == '__main__':

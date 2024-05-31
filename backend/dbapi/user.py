@@ -97,7 +97,7 @@ class UserCURD:
 
 if __name__ == "__main__":
     mainuser = '{"UserId":2, "UserClass":1, "UserName":"Mitsuhiro", "motto":"Hello", "LastLogintime":"2024-05-29 00:00:00", "gender":"Male", "password":"123456", "numofShares": 6}'#json
-    #UserCURD.createUser(mainuser)
-    session=getdb()
+    UserCURD.createUser(mainuser)
+    session = getdb()
     main = UserCURD.getUserByUserId(1, session)
-    print(main.UserId,main.UserClass,main.UserName,main.motto,main.LastLogintime)
+    print(main.UserId, main.UserClass, main.UserName, main.motto, main.LastLogintime)
