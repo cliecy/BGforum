@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import PostGrid from "../UI/PostGrid";
-
+import { GetAllPost } from "../Lib/lib";
 const p = [
     { title: "ABC", content: "SSSS", date: new Date("2013/03/24"), shareid: "0", authorid: "sss" },
 ]
@@ -8,6 +8,7 @@ const p = [
 
 const Home = () => {
     const params = useParams()
+    GetAllPost()
     let id: string | undefined = params.id
     if (id !== undefined) {
         return <PostGrid props={p} PageID={id}></PostGrid>
