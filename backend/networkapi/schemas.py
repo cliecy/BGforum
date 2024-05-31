@@ -76,3 +76,11 @@ class UserResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class UserLogin(BaseModel):
+    UserId: int
+    password: str
+
+    class Config:
+        from_attributes = True

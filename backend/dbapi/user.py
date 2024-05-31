@@ -26,6 +26,7 @@ class UserCURD:
         )
         s.add(user)
         s.commit()
+    @classmethod
     def createUserbyObject(cls, user: schemas.UserCreate):
         s = getdb()
         dbuser = User(
@@ -40,6 +41,7 @@ class UserCURD:
         )
         s.add(dbuser)
         s.commit()
+        
     @classmethod
     def getUserByUserId(cls, userId):
         s = getdb()
