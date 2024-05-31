@@ -58,7 +58,7 @@ class UserCreate(BaseModel):
     UserClass: int
     UserName: str
     motto: str
-    LastLogintime: str
+    LastLogintime: datetime
     gender: int
     password: str
     numofShares: int
@@ -69,10 +69,18 @@ class UserResponse(BaseModel):
     UserClass: int
     UserName: str
     motto: str
-    LastLogintime: str
+    LastLogintime: datetime
     gender: int
     password: str
     numofShares: int
+
+    class Config:
+        from_attributes = True
+
+
+class UserLogin(BaseModel):
+    UserId: int
+    password: str
 
     class Config:
         from_attributes = True

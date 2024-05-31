@@ -28,3 +28,11 @@ def createShares(share: schemas.ShareCreate):
 @router.post('/{shareId}', response_model=schemas.ReplyCreate)
 def createReply(reply: schemas.ReplyCreate):
     Operations.createReplyByObject(reply)
+
+
+@router.post('/{userId}', response_model=schemas.UserCreate)
+def registerUser(user: schemas.UserCreate):
+    Operations.createUserbyObject(user)
+
+#@router.post('/{userId}', response_model=schemas.UserLogin)
+#def
