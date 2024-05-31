@@ -1,11 +1,11 @@
 from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
-from ..dbapi.models import User
+from BGforum.backend.dbapi.models import User
 from fastapi import HTTPException
 from datetime import datetime
 import json
-from ..dbapi.database import getdb
-from ..networkapi import schemas
+from BGforum.backend.dbapi.database import getdb
+from BGforum.backend.networkapi import schemas
 
 
 class UserCURD:
@@ -134,31 +134,27 @@ class UserCURD:
         except NoResultFound:
             raise HTTPException(status_code=404, detail="User not found")
     @classmethod
-    async def userLogin(cls, userinfo: schemas.UserLogin):
+    def userLogin(cls, userinfo: schemas.UserLogin):
         s = getdb()
-        try:
-            userName = userinfo.UserName
-            password = userinfo.password
+        userName = userinfo.UserName
+        password = userinfo.password
 
-            stmt = select(User).where(User.UserName == userName)
-            result = await s.execute(stmt)
-            user = result.scalars().first()
+        stmt = select(User).where(User.UserName == userName)
+        result = s.execute(stmt)
+        user = result.scalars().first()
 
-            if not user:
-                raise HTTPException(status_code=404, detail="User not found")
-            if password != user.password:
-                raise HTTPException(status_code=401, detail="Incorrect password")
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        if password != user.password:
+            raise HTTPException(status_code=401, detail="Incorrect password")
 
-            return {"status": "success", "message": "Login successful"}
-        except HTTPException as e:
-            raise e
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+        return {"status": "success", "message": "Login successful"}
 
 
 if __name__ == "__main__":
     mainuser = '{"UserId":2, "UserClass":1, "UserName":"Mitsuhiro", "motto":"Hello", "LastLogintime":"2024-05-29 00:00:00", "gender":"Male", "password":"123456", "numofShares": 6}'#json
-    UserCURD.createUserbyJson(mainuser)
+    #UserCURD.createUserbyJson(mainuser)
     session = getdb()
     main = UserCURD.getUserByUserId(2)
-    print(main.UserId, main.UserClass, main.UserName, main.motto, main.LastLogintime)
+    userinfo = schemas.UserLogin(UserName="Mitsuhiro", password="123456")
+    print(UserCURD.userLogin(userinfo))
