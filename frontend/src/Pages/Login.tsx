@@ -8,9 +8,7 @@ export type FieldType = {
 };
 
 const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-    console.log('Success:', values);
     await LoginFunc(values)
-
 };
 
 const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = async (errorInfo) => {
