@@ -6,10 +6,12 @@ const onChange: PaginationProps['onChange'] = (pageNumber) => {
   console.log('Page: ', pageNumber);
 };
 
-const MPagination: React.FC = () => (
-  <>
-    <Pagination showQuickJumper defaultCurrent={1} total={500} onChange={onChange} />
-  </>
-);
+const MPagination: React.FC <{pageNum:number}> = ({pageNum}) => {
+
+  return (  <>
+    <Pagination showQuickJumper defaultCurrent={1} total={pageNum} onChange={onChange} />
+  </>)
+
+};
 
 export default MPagination;
