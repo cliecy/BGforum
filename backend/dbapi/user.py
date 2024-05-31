@@ -158,3 +158,4 @@ if __name__ == "__main__":
     main = UserCURD.getUserByUserId(2)
     userinfo = schemas.UserLogin(UserName="Mitsuhiro", password="123456")
     print(UserCURD.userLogin(userinfo))
+
