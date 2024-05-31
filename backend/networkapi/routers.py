@@ -1,8 +1,8 @@
 from fastapi import APIRouter
-from backend.dbapi.operations import (
+from ..dbapi.operations import (
     Operations,
 )
-from backend.networkapi import schemas
+from ..networkapi import schemas
 
 router = APIRouter()
 
