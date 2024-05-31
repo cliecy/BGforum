@@ -61,7 +61,7 @@ interface LoginStatus{
 export async function LoginFunc(values:FieldType): Promise<void>{
     let myresponse:LoginStatus = {status:"",message:""};
     try{
-        await axios.post('http://127.0.0.1:8000/users/login',`{userName:${values.userName},password:${values.password}`).then(function (response) {
+        await axios.post('http://127.0.0.1:8000/users/login',{UserName:values.userName,password:values.password}).then(function (response) {
             console.log(response);
             myresponse = response.data
         }).catch(function (error) {
