@@ -144,13 +144,13 @@ class UserCURD:
         stmt = select(User).where(User.UserName == userName)
         result = s.execute(stmt)
         user = result.scalars().first()
-
+        print("hello")
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
         if password != user.password:
             raise HTTPException(status_code=401, detail="Incorrect password")
 
-        return schemas.returnStatus(status="Success",message="Login Successful")
+        return {"status": "Success", "message": "Login Successful"}
 
 
 if __name__ == "__main__":

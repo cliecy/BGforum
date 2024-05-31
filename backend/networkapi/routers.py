@@ -38,11 +38,11 @@ def registerUser(user: schemas.UserCreate):
         raise HTTPException(status_code=400, detail='The password is not same in two times you inputted.')
 
 
-@router.post('users/login', response_model=schemas.UserLogin)
+@router.post('/users/login')
 def UserLogin(user: schemas.UserLogin):
-    Operations.userLogin(user)
+    return Operations.userLogin(user)
     
-@router.get('users/{userId}', response_model=schemas.UserResponse)
+@router.get('/users/{userId}', response_model=schemas.UserResponse)
 def getUser(userId: int):
     Operations.getUserByUserId(userId)
 
