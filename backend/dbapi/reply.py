@@ -9,7 +9,7 @@ from backend.dbapi.models import Reply
 from backend.dbapi.database import getdb
 from backend.networkapi import schemas
 
-
+# CRUD of replies
 class BasicReplyCRUD:
     @classmethod
     def createReplyByJson(cls, receivedJson):
@@ -29,6 +29,7 @@ class BasicReplyCRUD:
         s.add(reply)
         s.commit()
 
+    # from a pydantic object creates a reply
     @classmethod
     def createReplyByObject(cls, postedReply):
         s = getdb()
@@ -60,6 +61,7 @@ class BasicReplyCRUD:
         result = s.execute(stmt).scalars().all()
         return result
 
+    # locate a specified reply by share id and its floor
     @classmethod
     def deleteReplyByLocation(cls, shareId, floor):
         s = getdb()
@@ -68,6 +70,7 @@ class BasicReplyCRUD:
         s.delete(result[0])
         s.commit()
 
+    # receive a pydantic object and create a reply
     @classmethod
     def deleteReplyByObject(cls, obj):
         s = getdb()
