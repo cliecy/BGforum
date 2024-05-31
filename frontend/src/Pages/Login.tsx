@@ -2,7 +2,7 @@ import type { FormProps } from 'antd';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { LoginFunc } from '../Lib/lib';
 export type FieldType = {
-    username?: string;
+    userName?: string;
     password?: string;
     remember?: boolean;
 };
@@ -30,7 +30,7 @@ const Login: React.FC = () => (
     >
         <Form.Item<FieldType>
             label="Username"
-            name="username"
+            name="userName"
             rules={[{ required: true, message: 'Please input your username!' }]}
         >
             <Input />
