@@ -1,9 +1,10 @@
 export interface Post{
-    title: string;
-    content: string;
-    date: Date;
-    shareid: string;
-    authorid:string;
+    ShareId: string;
+    UserId:string;
+    Content: string;
+    Title: string;
+    PostTime: string;
+    IsLocked: boolean;
 }
 export interface Reply{
     date: Date;
@@ -28,3 +29,14 @@ export interface User{
     gender: gender;
     lastlogintime: Date;
 }
+
+
+export function isPost(obj: any): obj is Post {
+    return (
+      typeof obj.title === 'string' &&
+      typeof obj.content === 'string' &&
+      obj.date instanceof Date &&
+      typeof obj.shareid === 'string' &&
+      typeof obj.authorid === 'string'
+    );
+  }

@@ -4,6 +4,7 @@ import {NavLink} from 'react-router-dom';
 import MPagination from './MPagination';
 
 
+
 const PostGrid: React.FC<{ props: Post[],PageID:string }> = ({props,PageID}) => {
 
     if(PageID==="NOPARAM")
@@ -13,8 +14,8 @@ const PostGrid: React.FC<{ props: Post[],PageID:string }> = ({props,PageID}) => 
             {props.map((post, index) => (
                 <Row key={index}>
                     <Col span={24}>
-                        <NavLink to={`/PostPage/${post.shareid}`}>{post.title}</NavLink>
-                        <p>{post.date.toDateString()}</p>
+                        <NavLink to={`/PostPage/${post.ShareId}`}>{post.Title}</NavLink>
+                        <p>{post.PostTime}</p>
                     </Col>
                 </Row>
             ))}
