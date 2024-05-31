@@ -1,11 +1,11 @@
 from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
-from backend.dbapi.models import User
+from ..dbapi.models import User
 from fastapi import HTTPException
 from datetime import datetime
 import json
-from backend.dbapi.database import getdb
-from backend.networkapi import schemas
+from ..dbapi.database import getdb
+from ..networkapi import schemas
 
 
 class UserCURD:
@@ -109,6 +109,27 @@ class UserCURD:
             s.commit()
         except NoResultFound:
             raise HTTPException(status_code=404, detail="User not found")
+    @classmethod
+    async def userLogin(cls, userinfo: schemas.UserLogin):
+        s = getdb()
+        try:
+            userId = userinfo.userId
+            password = userinfo.password
+
+            stmt = select(User).where(User.UserId == userId)
+            result = await s.execute(stmt)
+            user = result.scalars().first()
+
+            if not user:
+                raise HTTPException(status_code=404, detail="User not found")
+            if password != user.password:
+                raise HTTPException(status_code=401, detail="Incorrect password")
+
+            return {"status": "success", "message": "Login successful"}
+        except HTTPException as e:
+            raise e
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
 
 
 if __name__ == "__main__":
