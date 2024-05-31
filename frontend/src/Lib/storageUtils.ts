@@ -11,12 +11,14 @@ export default {
     saveUser(user:LoginUser) {
         localStorage.setItem("username",user.username);
         localStorage.setItem("password",user.password)
+        console.log(`username:${user.username},password:${user.password}`)
     },
 
     // 读取用户
     getUser():boolean {
         const result = localStorage.getItem("username")
         if(result!=null){
+            console.log(`username:${result}`)
             return true
         }else{
             return false

@@ -1,8 +1,10 @@
 import React from 'react';
 import { Button, Flex, Form, Input, Select } from 'antd';
-
+import storageUtils from '../Lib/storageUtils';
 const MakePostComponent = () => {
   const [form] = Form.useForm();
+  if(storageUtils.getUser()==false)
+    return <></>
   return (
     <>
         <Form

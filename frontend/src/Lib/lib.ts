@@ -60,7 +60,7 @@ interface LoginStatus{
 export async function LoginFunc(values:FieldType): Promise<void>{
     let myresponse:LoginStatus = {status:"",message:""};
     try{
-        await axios.get('http://127.0.0.1:8000/users/login').then(function (response) {
+        await axios.post('http://127.0.0.1:8000/users/login',values).then(function (response) {
             console.log(response);
             myresponse = response.data
         }).catch(function (error) {
@@ -78,6 +78,8 @@ export async function LoginFunc(values:FieldType): Promise<void>{
     }
 
 }
+
+// export async function RegisterFunc(values:)
 
 export function Logout():void{
     if(storageUtils.getUser())
