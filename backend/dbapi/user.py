@@ -2,9 +2,10 @@ from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
 from BGforum.backend.dbapi.models import User
 from fastapi import HTTPException
-import datetime
+from datetime import datetime
 import json
 from BGforum.backend.dbapi.database import getdb
+from BGforum.backend.networkapi import schemas
 
 
 class UserCURD:
@@ -18,14 +19,27 @@ class UserCURD:
             UserClass=jsondict["UserClass"],
             UserName=jsondict["UserName"],
             motto=jsondict["motto"],
-            LastLogintime=datetime.datetime.strptime(jsondict["LastLogintime"], date_format),
+            LastLogintime=datetime.strptime(jsondict["LastLogintime"], date_format),
             gender=jsondict["gender"],
             password=jsondict["password"],
             numofShares=jsondict["numofShares"],
         )
         s.add(user)
         s.commit()
-    def createUser
+    def createUserbyObject(cls, user: schemas.UserCreate):
+        s = getdb()
+        dbuser = User(
+            UserId=user.UserId,
+            UserClass=user.UserClass,
+            UserName=user.UserName,
+            motto=user.motto,
+            LastLogintime=user.LastLogintime,
+            gender=user.gender,
+            password=user.password,
+            numofShares=user.numofShares,
+        )
+        s.add(dbuser)
+        s.commit()
     @classmethod
     def getUserByUserId(cls, userId):
         s = getdb()
@@ -61,7 +75,7 @@ class UserCURD:
             user.UserName = jsondict.get("UserName", user.UserName)
             user.motto = jsondict.get("Motto", user.motto)
             if "LastLogintime" in jsondict:
-                user.LastLogintime = datetime.datetime.strptime(jsondict["LastLogintime"], date_format)
+                user.LastLogintime = datetime.strptime(jsondict["LastLogintime"], date_format)
             user.gender = jsondict.get("Gender", user.gender)
             user.password = jsondict.get("Password", user.password)
             user.numofShares = jsondict.get("NumOfShares", user.numofShares)
