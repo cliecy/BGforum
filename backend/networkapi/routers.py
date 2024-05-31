@@ -34,5 +34,12 @@ def createReply(reply: schemas.ReplyCreate):
 def registerUser(user: schemas.UserCreate):
     Operations.createUserbyObject(user)
 
-@router.post('users/{userId}', response_model=schemas.UserLogin)
+
+@router.post('users/login', response_model=schemas.UserLogin)
 def UserLogin(user: schemas.UserLogin):
+    Operations.userLogin(user)
+
+
+@router.get('users/{userId}', response_model=schemas.UserResponse)
+def getUser(userId: int):
+    Operations.getUserByUserId(userId)
