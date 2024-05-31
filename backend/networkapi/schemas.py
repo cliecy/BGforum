@@ -80,7 +80,7 @@ class UserResponse(BaseModel):
 
 
 class UserLogin(BaseModel):
-    UserId: int
+    UserName: str
     password: str
 
     class Config:

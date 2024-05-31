@@ -55,7 +55,6 @@ class UserCURD:
         stmt = select(User).where(User.UserName == userName)
         result = s.scalars(stmt)
         return result
-
     @classmethod
     async def updateUser(cls, receivedJson):
         jsondict = json.loads(receivedJson)
@@ -88,6 +87,31 @@ class UserCURD:
             raise HTTPException(status_code=404, detail="User not found")
 
     @classmethod
+    def updateUserbyObject(cls, founduser: schemas.UserResponse):
+        date_format = "%Y-%m-%d %H:%M:%S"
+        s = getdb()
+        try:
+            # 查找现有用户
+            stmt = select(User).where(User.UserId == founduser.UserId)
+            result = s.execute(stmt)
+            user = result.scalars().first()
+
+            if not user:
+                raise HTTPException(status_code=404, detail="User not found")
+            if user.UserClass == 1:
+                user = user.values(UserClass=founduser.UserClass)
+            user = user.values(
+                UserName=founduser.UserName,
+                motto=founduser.motto,
+                gender=founduser.gender,
+                password=founduser.password,
+            )
+
+            s.execute(user)
+            s.commit()
+        except NoResultFound:
+            raise HTTPException(status_code=404, detail="User not found")
+    @classmethod
     async def deleteUserByUserId(cls, receivedJson, userId):
         jsondict = json.loads(receivedJson)
         date_format = "%Y-%m-%d %H:%M:%S"
@@ -113,10 +137,10 @@ class UserCURD:
     async def userLogin(cls, userinfo: schemas.UserLogin):
         s = getdb()
         try:
-            userId = userinfo.userId
+            userName = userinfo.UserName
             password = userinfo.password
 
-            stmt = select(User).where(User.UserId == userId)
+            stmt = select(User).where(User.UserName == userName)
             result = await s.execute(stmt)
             user = result.scalars().first()
 
