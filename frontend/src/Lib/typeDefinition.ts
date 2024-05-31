@@ -1,6 +1,6 @@
 export interface Post{
-    ShareId: string;
-    UserId:string;
+    ShareId: number | undefined;
+    UserId: number;
     Content: string;
     Title: string;
     PostTime: string;
