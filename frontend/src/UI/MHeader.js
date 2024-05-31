@@ -25,7 +25,7 @@ const menuItems = [
 
 const MHeader = () => {
   const {
-    token: { colorBgContainer },
+    token: { colorBgContainer,borderRadiusLG,colorBgElevated },
   } = theme.useToken();
   const [currentMenu, setCurrentMenu] = useState({});
   // 定义selectedKeys，来控制菜单选中状态和切换页面
@@ -60,7 +60,7 @@ const MHeader = () => {
           </Col>
         </Row>
       </Header>
-      <Content style={{ padding: "25px", background: colorBgContainer }}>
+      <Content style={{ padding: "0 48px", background: colorBgElevated }}>
         {location.pathname !== "/" && location.pathname !== "/Home" && (
           <Breadcrumb
             items={[
@@ -74,7 +74,17 @@ const MHeader = () => {
             ]}
           />
         )}
+
+        <div
+          style={{
+            background: colorBgElevated,
+            minHeight: 280,
+            padding: 24,
+            borderRadius: borderRadiusLG,
+          }}
+        >
         <Outlet />
+        </div>
       </Content>
     </>
   );

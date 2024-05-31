@@ -5,6 +5,7 @@ import MPagination from './MPagination';
 
 
 const PostGrid: React.FC<{ props: Post[],PageID:string }> = ({props,PageID}) => {
+
     if(PageID==="NOPARAM")
         PageID = "1"
     return (
@@ -17,7 +18,7 @@ const PostGrid: React.FC<{ props: Post[],PageID:string }> = ({props,PageID}) => 
                     </Col>
                 </Row>
             ))}
-            <MPagination/>
+            <MPagination pageNum={props.length}/>
         </>
     )
 
