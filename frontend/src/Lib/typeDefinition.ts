@@ -30,6 +30,10 @@ export interface User{
     lastlogintime: Date;
 }
 
+export interface Share{
+    share: Post[]
+    replies: Reply[]
+}
 
 export function isPost(obj: any): obj is Post {
     return (

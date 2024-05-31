@@ -1,11 +1,6 @@
 import type { FormProps } from 'antd';
 import { Button, Checkbox, Form, Input } from 'antd';
-
-type FieldType = {
-    username?: string;
-    password?: string;
-    remember?: string;
-};
+import { FieldType } from './Login';
 
 const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
     console.log('Success:', values);
@@ -28,7 +23,7 @@ const Login: React.FC = () => (
     >
         <Form.Item<FieldType>
             label="Username"
-            name="username"
+            name="userName"
             rules={[{ required: true, message: 'Please input your username!' }]}
         >
             <Input />
