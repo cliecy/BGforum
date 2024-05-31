@@ -44,7 +44,7 @@ const placeholderPosts: Post[] = [
 const Home: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize] = useState<number>(20); // 每页显示的帖子数量
+  const [pageSize,setpageSize] = useState<number>(20); // 每页显示的帖子数量
   const params = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -60,6 +60,10 @@ const Home: React.FC = () => {
     setCurrentPage(page);
   };
 
+  const handleShowSizeChange = (current:number,pageSize:number) =>{
+    setpageSize(pageSize);
+  }
+
   const id = params.id || 'NOPARAM';
 
   return (
@@ -68,6 +72,7 @@ const Home: React.FC = () => {
       currentPage={currentPage}
       pageSize={pageSize}
       onPageChange={handlePageChange}
+      onShowSizeChange={handleShowSizeChange}
     />
   );
 };
