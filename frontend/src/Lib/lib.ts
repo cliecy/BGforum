@@ -4,21 +4,16 @@ import { FieldType } from "../Pages/Login";
 import storageUtils from "./storageUtils";
 
 
-export async function GetPostPage(shareId: string): Promise<Share> {
-    let mygets: Share = {share: [], replies: []};
-    try{
-        await axios.get(`http://127.0.0.1:8000/shares/${shareId}`).then(function (response){
-            console.log(response);
-            mygets = response.data;
-        }).catch(function (error) {
-            console.log(error);
-        });
-    }
-    catch{
-        console.log("ERRORS BUT NOT AXIOS ERROR")
-    }
-    console.log(mygets);
-    return mygets;
+export function GetPostPage(): Reply[] {
+    var shareid = 0;
+
+    return [{
+        date: new Date(),
+        content: "ssss",
+        shareid: "123",
+        floor: 2323,
+        authorid: "sdadas"
+    }]
 }
 
 
@@ -66,7 +61,7 @@ interface LoginStatus{
 export async function LoginFunc(values:FieldType): Promise<void>{
     let myresponse:LoginStatus = {status:"",message:""};
     try{
-        await axios.post('http://127.0.0.1:8000/users/login',{userName:values.userName,password:values.password}).then(function (response) {
+        await axios.post('http://127.0.0.1:8000/users/login',`{userName:${values.userName},password:${values.password}`).then(function (response) {
             console.log(response);
             myresponse = response.data
         }).catch(function (error) {

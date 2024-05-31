@@ -1,11 +1,11 @@
 from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
-from BGforum.backend.dbapi.models import User
+from ..dbapi.models import User
 from fastapi import HTTPException
 from datetime import datetime
 import json
-from BGforum.backend.dbapi.database import getdb
-from BGforum.backend.networkapi import schemas
+from ..dbapi.database import getdb
+from ..networkapi import schemas
 
 
 class UserCURD:
@@ -55,6 +55,7 @@ class UserCURD:
         stmt = select(User).where(User.UserName == userName)
         result = s.scalars(stmt)
         return result
+
     @classmethod
     async def updateUser(cls, receivedJson):
         jsondict = json.loads(receivedJson)
