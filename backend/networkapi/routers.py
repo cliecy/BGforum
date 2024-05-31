@@ -42,7 +42,10 @@ def registerUser(user: schemas.UserCreate):
 def UserLogin(user: schemas.UserLogin):
     Operations.userLogin(user)
 
-
 @router.get('users/{userId}', response_model=schemas.UserResponse)
 def getUser(userId: int):
     Operations.getUserByUserId(userId)
+
+@router.post('/users/{userId}', response_model=schemas.UserResponse)
+def userupdate(user: schemas.UserResponse):
+    Operations.updateUser(user)
