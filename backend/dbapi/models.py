@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import Integer, String, DATETIME, ForeignKey, Boolean
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from BGforum.backend.dbapi.database import engine
+from backend.dbapi.database import engine
 
 
 class Base(DeclarativeBase):

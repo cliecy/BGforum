@@ -2,15 +2,14 @@ from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
 from BGforum.backend.dbapi.models import User
 from fastapi import HTTPException
-from datetime import datetime
+import datetime
 import json
 from BGforum.backend.dbapi.database import getdb
-from BGforum.backend.networkapi import schemas
 
 
 class UserCURD:
     @classmethod
-    def createUserbyJson(cls, receivedJson: str):
+    def createUser(cls, receivedJson: str):
         s = getdb()
         jsondict = json.loads(receivedJson)
         date_format = "%Y-%m-%d %H:%M:%S"
@@ -19,7 +18,7 @@ class UserCURD:
             UserClass=jsondict["UserClass"],
             UserName=jsondict["UserName"],
             motto=jsondict["motto"],
-            LastLogintime=datetime.strptime(jsondict["LastLogintime"], date_format),
+            LastLogintime=datetime.datetime.strptime(jsondict["LastLogintime"], date_format),
             gender=jsondict["gender"],
             password=jsondict["password"],
             numofShares=jsondict["numofShares"],
@@ -27,21 +26,6 @@ class UserCURD:
         s.add(user)
         s.commit()
 
-    @classmethod
-    def createUserByObject(cls, user: schemas.UserCreate):
-        s = getdb()
-        dbUser = User(
-           UserId=user.UserId,
-           UserClass=user.UserClass,
-           UserName=user.UserName,
-           motto=user.motto,
-           LastLogintime=user.LastLogintime,
-           gender=user.gender,
-           password=user.password,
-           numofShares=user.numofShares,
-        )
-        s.add(dbUser)
-        s.commit()
     @classmethod
     def getUserByUserId(cls, userId):
         s = getdb()
@@ -113,7 +97,7 @@ class UserCURD:
 
 if __name__ == "__main__":
     mainuser = '{"UserId":2, "UserClass":1, "UserName":"Mitsuhiro", "motto":"Hello", "LastLogintime":"2024-05-29 00:00:00", "gender":"Male", "password":"123456", "numofShares": 6}'#json
-    #UserCURD.createUser(mainuser)
+    UserCURD.createUser(mainuser)
     session = getdb()
-    main = UserCURD.getUserByUserId(2)
+    main = UserCURD.getUserByUserId(1, session)
     print(main.UserId, main.UserClass, main.UserName, main.motto, main.LastLogintime)
