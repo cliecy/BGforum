@@ -7,9 +7,9 @@ from sqlalchemy import (
 from fastapi import HTTPException
 from sqlalchemy.exc import NoResultFound
 
-from BGforum.backend.dbapi.models import Share
-from BGforum.backend.dbapi.database import getdb
-from BGforum.backend.networkapi import schemas
+from backend.dbapi.models import Share
+from backend.dbapi.database import getdb
+from backend.networkapi import schemas
 
 
 

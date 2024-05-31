@@ -1,11 +1,11 @@
 from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
-from BGforum.backend.dbapi.models import User
+from backend.dbapi.models import User
 from fastapi import HTTPException
 from datetime import datetime
 import json
-from BGforum.backend.dbapi.database import getdb
-from BGforum.backend.networkapi import schemas
+from backend.dbapi.database import getdb
+from backend.networkapi import schemas
 
 
 class UserCURD:
