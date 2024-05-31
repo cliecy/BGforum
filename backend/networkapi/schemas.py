@@ -85,3 +85,7 @@ class UserLogin(BaseModel):
 
     class Config:
         from_attributes = True
+
+class returnStatus(BaseModel):
+    status: str
+    message: str

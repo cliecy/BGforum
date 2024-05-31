@@ -149,7 +149,7 @@ class UserCURD:
         if password != user.password:
             raise HTTPException(status_code=401, detail="Incorrect password")
 
-        return {"status": "success", "message": "Login successful"}
+        return schemas.returnStatus(status="Success",message="Login Successful")
 
 
 if __name__ == "__main__":
