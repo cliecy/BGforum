@@ -87,8 +87,12 @@ class BasicShareCRUD:
         except NoResultFound:
             raise HTTPException(status_code=404, detail="Share not found")
 
-
-
+    @classmethod
+    def userLogin(cls, userinfo: schemas.UserLogin):
+        try:
+            username = userinfo.username
+        except HTTPException as e:
+            raise
 if __name__ == '__main__':
     mainshare = ('{"ShareId":null,'
                  '"UserId":2, '

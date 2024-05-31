@@ -34,5 +34,5 @@ def createReply(reply: schemas.ReplyCreate):
 def registerUser(user: schemas.UserCreate):
     Operations.createUserbyObject(user)
 
-#@router.post('/{userId}', response_model=schemas.UserLogin)
-#def
+@router.post('/{userId}', response_model=schemas.UserLogin)
+def
