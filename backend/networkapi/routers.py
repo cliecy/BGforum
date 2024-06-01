@@ -32,11 +32,7 @@ def createReply(reply: schemas.ReplyCreate):
 
 @router.post('/users', response_model=schemas.UserCreate)
 def registerUser(user: schemas.UserCreate):
-    try:
-        Operations.createUserbyObject(user)
-    except user.password != user.passwordconfirm:
-        raise HTTPException(status_code=400, detail='The password is not same in two times you inputted.')
-
+    return Operations.createUserbyObject(user)
 
 @router.post('/users/login')
 def UserLogin(user: schemas.UserLogin):
