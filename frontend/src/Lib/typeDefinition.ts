@@ -1,4 +1,4 @@
-export interface Post{
+export interface Post {
     ShareId: number | undefined;
     UserId: number;
     Content: string;
@@ -21,11 +21,11 @@ export enum gender{
     female = 'female',
 }
 
-export enum userclass{
+export enum userclass {
     Admin = 'admin',
-    Normal="Normal"
+    Normal = "Normal"
 }
-export interface User{
+export interface User {
     name: string;
     userid: string;
     userclass: userclass;
@@ -36,4 +36,8 @@ export interface User{
 export interface ShareAndReplies{
     share: Post[];
     replies: Reply[];
+}
+
+export interface HTTPStatus{
+    status:number;
 }

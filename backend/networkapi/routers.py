@@ -30,7 +30,7 @@ def createReply(reply: schemas.ReplyCreate):
     Operations.createReplyByObject(reply)
 
 
-@router.post('/users', response_model=schemas.UserCreate)
+@router.post('/users')
 def registerUser(user: schemas.UserCreate):
     return Operations.createUserbyObject(user)
 

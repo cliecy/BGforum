@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import storageUtils from '../Lib/storageUtils';
 
-const Redirect = ()=>{
+export const Redirect = ()=>{
     const Navigate = useNavigate()
     useEffect(()=>{Navigate("/")})
     return <></>
