@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import Integer, String, DATETIME, ForeignKey, Boolean
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from backend.dbapi.database import engine
+from ..dbapi.database import engine
 
 
 class Base(DeclarativeBase):
@@ -35,11 +35,11 @@ class Reply(Base):
 class User(Base):
     __tablename__ = "User"
     UserId: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=True, autoincrement=True)
-    UserClass: Mapped[int] = mapped_column(Boolean, nullable=False, default=False)
-    UserName: Mapped[str] = mapped_column(String(10000), nullable=False)
+    UserClass: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    UserName: Mapped[str] = mapped_column(String, nullable=False, unique=True)
     motto: Mapped[str] = mapped_column(String(10000))
     LastLogintime: Mapped[datetime] = mapped_column(DATETIME, nullable=False)
-    gender: Mapped[int] = mapped_column(Integer, nullable=False)
+    gender: Mapped[str] = mapped_column(String(10000), nullable=False)
     password: Mapped[str] = mapped_column(String(10000), nullable=False)
     numofShares: Mapped[int] = mapped_column(Integer, nullable=False)
 

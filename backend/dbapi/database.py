@@ -3,7 +3,7 @@ from sqlalchemy.orm import (
     sessionmaker
 )
 
-engine = create_engine('sqlite:////Users/apple/PycharmProjects/BGforum/backend/bbs.db', echo=True)
+engine = create_engine('sqlite:///backend/bbs.db', echo=True, pool_size=-1)
 session = sessionmaker(engine)
 
 
