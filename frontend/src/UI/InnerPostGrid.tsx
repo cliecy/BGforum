@@ -47,6 +47,7 @@ const InnerPostGrid: React.FC<InnerPostGridProps> = ({ post, currentPage, pageSi
         return (
             <>
                 {a(currentPage)}
+                <hr/>
                 {repliesInCurrentPage.map((reply, index) => {
                     console.log(reply)
                         return(             <Row key={index}>

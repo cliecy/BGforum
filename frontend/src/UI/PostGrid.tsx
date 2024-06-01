@@ -52,7 +52,8 @@ const PostGrid: React.FC<PostGridProps> = ({ posts, currentPage, pageSize, onPag
 
   useEffect(() => {
     const fetchUserData = async () => {
-        const updatedPosts = await Promise.all(currentPosts.map(async (post) => {
+      const test = currentPosts
+        const updatedPosts = await Promise.all(test.map(async (post) => {
             post.UserData = await GetUserDataById(post.UserId);
             return post;
         }));
@@ -61,7 +62,7 @@ const PostGrid: React.FC<PostGridProps> = ({ posts, currentPage, pageSize, onPag
     };
 
     fetchUserData();
-}, [posts,currentPosts]);
+}, [posts,currentPage,pageSize]);
   return (
     <>
       {postsWithUserData.map((post, index) => (
