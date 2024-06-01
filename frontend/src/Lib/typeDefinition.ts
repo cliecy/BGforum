@@ -17,9 +17,16 @@ export interface MakePostType{
 export interface Reply{
     Content: string;
     Floor:number;
-    PostTime:Date;
+    PostTime:string;
     ReplyId:number;
     ReplyTo:number;
+    ShareId:number;
+    UserId:number;
+}
+
+export interface MakeReplyType{
+    Content: string;
+    PostTime:string;
     ShareId:number;
     UserId:number;
 }

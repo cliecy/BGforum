@@ -1,4 +1,4 @@
-import { Post, ShareAndReplies, HTTPStatus, MakePostType } from './typeDefinition';
+import { Post, ShareAndReplies, HTTPStatus, MakePostType, Reply, MakeReplyType } from './typeDefinition';
 import axios from "axios";
 import { FieldType } from "../Pages/Login";
 import storageUtils from "./storageUtils";
@@ -52,7 +52,7 @@ export async function GetAllPost(): Promise<Post[]> {
 export async function MakePost(post: MakePostType): Promise<HTTPStatus> {
     let statusNum: number = 0;
     try {
-        await axios.post("http://127.0.0.1:8000/shares",post)
+        await axios.post("http://127.0.0.1:8000/shares", post)
             .then(function (response) {
                 console.log(response);
                 window.location.reload()
@@ -67,7 +67,25 @@ export async function MakePost(post: MakePostType): Promise<HTTPStatus> {
         return { status: statusNum }
     }
 }
-// export function
+export async function MakeReply(reply: MakeReplyType): Promise<HTTPStatus> {
+    let statusNum: number = 0;
+    try {
+        await axios.post(`http://127.0.0.1:8000/shares/${reply.ShareId}`,reply)
+            .then(function (response) {
+                console.log(response);
+                window.location.reload()
+                return { status: statusNum }
+            }).catch(function (error) {
+                console.log(error);
+                return { status: statusNum }
+            });
+        return { status: statusNum }
+    } catch {
+        console.log("ERRORS BUT NOT AXIOS ERROR")
+        return { status: statusNum }
+    }
+    return { status: statusNum }
+}
 
 
 interface LoginStatus {
@@ -147,9 +165,9 @@ export function formatDatefordate(date: Date): string {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
-export async function GetUserIdByUserName(userName:string):Promise<number>{
-    let userId:number = 0;
-    await axios.get(`http://127.0.0.1:8000/users/${userName}`).then(function(response){
+export async function GetUserIdByUserName(userName: string): Promise<number> {
+    let userId: number = 0;
+    await axios.get(`http://127.0.0.1:8000/users/${userName}`).then(function (response) {
         console.log(response.data)
         userId = response.data
     })

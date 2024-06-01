@@ -26,7 +26,7 @@ def createShares(share: schemas.ShareCreate):
     Operations.createShareByObject(share)
     # Operations.updateSharenumberbyObject(user)
 
-@router.post('/shares/{shareId}', response_model=schemas.ReplyCreate)
+@router.post('/shares/{shareId}')
 def createReply(reply: schemas.ReplyCreate):
     Operations.createReplyByObject(reply)
 
@@ -47,6 +47,6 @@ def getUser(userId: int):
 def userupdate(user: schemas.UserResponse):
     return Operations.updateUser(user)
 
-@router.get('/users/{UserName}')
+@router.get('/users/{UserName}') 
 def getUserId(UserName: str):
     return Operations.getUserIdbyName(UserName)
