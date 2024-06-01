@@ -20,11 +20,11 @@ def getReplies(shareId: int):
     return {"share": share, "replies": replies}
 
 
-@router.post('/shares', response_model=schemas.ShareCreate)
-def createShares(share: schemas.ShareCreate, user: schemas.UserResponse):
+@router.post('/shares')
+def createShares(share: schemas.ShareCreate):
     print("HELLO WORLD")
     Operations.createShareByObject(share)
-    Operations.updateSharenumberbyObject(user)
+    # Operations.updateSharenumberbyObject(user)
 
 @router.post('/shares/{shareId}', response_model=schemas.ReplyCreate)
 def createReply(reply: schemas.ReplyCreate):

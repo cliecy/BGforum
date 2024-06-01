@@ -12,7 +12,7 @@ export interface MakePostType{
     Content: string;
     Title: string;
     PostTime: string;
-    IsLocked: boolean;
+    // IsLocked: boolean;
 }
 export interface Reply{
     Content: string;

@@ -11,7 +11,7 @@ export type PostFieldType = {
 const mp = async (values: PostFieldType) => {
   let now = new Date()
   await MakePost(
-    {UserId:2,Content:values.content,Title:values.title,PostTime:formatDatefordate(now),IsLocked:false}
+    {UserId:2,Content:values.content,Title:values.title,PostTime:formatDatefordate(now)}
   )
     ;
 };
