@@ -1,11 +1,11 @@
 from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
-from ..dbapi.models import User
+from BGforum.backend.dbapi.models import User
 from fastapi import HTTPException
 from datetime import datetime
 import json
-from ..dbapi.database import getdb
-from ..networkapi import schemas
+from BGforum.backend.dbapi.database import getdb
+from BGforum.backend.networkapi import schemas
 
 
 class UserCURD:
@@ -15,7 +15,7 @@ class UserCURD:
         jsondict = json.loads(receivedJson)
         date_format = "%Y-%m-%d %H:%M:%S"
         user = User(
-            UserId=jsondict["UserId"],
+            #UserId=jsondict["UserId"],
             UserClass=jsondict["UserClass"],
             UserName=jsondict["UserName"],
             motto=jsondict["motto"],
@@ -30,8 +30,7 @@ class UserCURD:
     def createUserbyObject(cls, user: schemas.UserCreate):
         s = getdb()
         dbuser = User(
-            UserId=user.UserId,
-            UserClass=user.UserClass,
+            #UserId=user.UserId,
             UserName=user.UserName,
             motto=user.motto,
             LastLogintime=user.LastLogintime,
@@ -154,10 +153,12 @@ class UserCURD:
 
 
 if __name__ == "__main__":
-    mainuser = '{"UserId":2, "UserClass":1, "UserName":"Mitsuhiro", "motto":"Hello", "LastLogintime":"2024-05-29 00:00:00", "gender":"Male", "password":"123456", "numofShares": 6}'#json
-    #UserCURD.createUserbyJson(mainuser)
+    #mainuser = '{"UserClass":1, "UserName":"Hitsuhiro", "motto":"Hello", "LastLogintime":"2024-05-29 00:00:00", "gender":"Male", "password":"123456", "numofShares": 0}'#json
+    #print(UserCURD.createUserbyJson(mainuser))
+    user2 = schemas.UserCreate(UserName="Brian",motto="Mamba Out",LastLogintime="2024-06-01 23:01:59",gender="Male",password="123456",passwordconfirm="123456",numofShares=0)
+    print(UserCURD.createUserbyObject(user2))
     session = getdb()
     main = UserCURD.getUserByUserId(2)
-    userinfo = schemas.UserLogin(UserName="Mitsuhiro", password="123456")
+    userinfo = schemas.UserLogin(UserName="Brian", password="123456")
     print(UserCURD.userLogin(userinfo))
 
