@@ -5,6 +5,7 @@ export interface Post {
     Title: string;
     PostTime: string;
     IsLocked: boolean;
+    UserData:GetUserType |undefined;
 }
 
 export interface MakePostType{
@@ -22,6 +23,7 @@ export interface Reply{
     ReplyTo:number;
     ShareId:number;
     UserId:number;
+    UserData:GetUserType | undefined;
 }
 
 export interface MakeReplyType{
@@ -48,6 +50,14 @@ export interface User {
     lastlogintime: Date;
 }
 
+export interface GetUserType{
+    UserId:number,
+    LastLogintime:string;
+    UserName:string;
+    gender: string;
+    motto: string;
+    numofShares:number;
+}
 export interface ShareAndReplies{
     share: Post[];
     replies: Reply[];

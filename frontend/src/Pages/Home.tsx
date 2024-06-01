@@ -40,7 +40,7 @@ import { Post } from '../Lib/typeDefinition';
 import MakePostComponent from '../UI/MakePostComponent';
 
 const placeholderPosts: Post[] = [
-    {ShareId:undefined,Title: "ABC", Content: "SSSS", PostTime:"2013-03-24 13:30:20", UserId: 2 ,IsLocked:false}];
+    {ShareId:undefined,Title: "ABC", Content: "SSSS", PostTime:"2013-03-24 13:30:20", UserId: 2 ,IsLocked:false,UserData:undefined}];
 
 const Home: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);

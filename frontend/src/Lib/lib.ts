@@ -1,4 +1,4 @@
-import { Post, ShareAndReplies, HTTPStatus, MakePostType, Reply, MakeReplyType } from './typeDefinition';
+import { Post, ShareAndReplies, HTTPStatus, MakePostType, Reply, MakeReplyType, User, GetUserType } from './typeDefinition';
 import axios from "axios";
 import { FieldType } from "../Pages/Login";
 import storageUtils from "./storageUtils";
@@ -210,3 +210,23 @@ export async function RegisterFunc(values: RegisterFieldType): Promise<HTTPStatu
     }
 }
 
+export async function GetUserDataById(userId: number): Promise<GetUserType> {
+
+    let result:GetUserType = {
+        UserId:-1,
+        LastLogintime:"",
+        UserName:"",
+        gender:"",
+        motto:"",
+        numofShares: -1
+    }
+
+    if(userId===0)
+        return result
+    await axios.get(`http://127.0.0.1:8000/user/${userId}`).then(function (response) {
+        console.log(response.data)
+        result=response.data
+    })
+
+    return result
+}

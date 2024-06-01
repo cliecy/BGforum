@@ -71,7 +71,7 @@ class UserResponse(BaseModel):
     gender: str
     motto: str
     numofShares: int
-    password: str
+    # password: str
 
     class Config:
         from_attributes = True
