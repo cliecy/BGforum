@@ -32,8 +32,8 @@ class UserCURD:
     @classmethod
     def createUserbyObject(cls, user: schemas.UserCreate):
         s = getdb()
-
-        existing_user = select(User).where(UserName=user.UserName)
+        print("HELLO2")
+        existing_user = select(User).where(User.UserName==user.UserName)
         existing_user = s.scalars(existing_user).first()
         #existing_user = s.query(User).filter_by(UserName=user.UserName).first()
         if existing_user is not None:
@@ -41,12 +41,12 @@ class UserCURD:
 
         dbuser = User(
             #UserId=user.UserId,
-            UserName=user.UserName,
-            motto=user.motto,
             LastLogintime=user.LastLogintime,
+            UserName=user.UserName,
             gender=user.gender,
-            password=user.password,
+            motto=user.motto,
             numofShares=user.numofShares,
+            password=user.password,
         )
         s.add(dbuser)
         s.commit()
