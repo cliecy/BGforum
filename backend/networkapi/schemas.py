@@ -55,24 +55,23 @@ class ShareAndRepliesResponse(BaseModel):
 
 class UserCreate(BaseModel):
     #UserId: int
-    UserName: str
-    motto: str
     LastLogintime: datetime
+    UserName: str
     gender: str
-    password: str
-    #passwordconfirm: str
+    motto: str
     numofShares: int
+    password: str
 
 
 class UserResponse(BaseModel):
     #UserId: int
     #UserClass: int
-    UserName: str
-    motto: str
     LastLogintime: datetime
+    UserName: str
     gender: str
-    password: str
+    motto: str
     numofShares: int
+    password: str
 
     class Config:
         from_attributes = True
