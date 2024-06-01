@@ -24,6 +24,16 @@ export default {
             return false
         }
     },
+    getUserName():string{
+        const result = localStorage.getItem("username")
+
+        if(result){
+            return result
+        }
+        else{
+            return "ERROR"
+        }
+    },
 
     // 删除用户
     removeUser():void {

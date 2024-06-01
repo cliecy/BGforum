@@ -39,7 +39,7 @@ def registerUser(user: schemas.UserCreate):
 def UserLogin(user: schemas.UserLogin):
     return Operations.userLogin(user)
     
-@router.get('/users/{getuser}', response_model=schemas.UserResponse)
+@router.get('/user/{userId}', response_model=schemas.UserResponse)
 def getUser(userId: int):
     return Operations.getUserByUserId(userId)
 
@@ -47,6 +47,6 @@ def getUser(userId: int):
 def userupdate(user: schemas.UserResponse):
     return Operations.updateUser(user)
 
-@router.get('/users/{getuserName}')
+@router.get('/users/{UserName}')
 def getUserId(UserName: str):
     return Operations.getUserIdbyName(UserName)
