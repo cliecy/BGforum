@@ -1,11 +1,12 @@
-from sqlalchemy import select
+from sqlalchemy import select, delete, update
 from sqlalchemy.exc import NoResultFound
-from ..dbapi.models import User
+from backend.dbapi.models import User
 from fastapi import HTTPException
 from datetime import datetime
 import json
-from ..dbapi.database import getdb
-from ..networkapi import schemas
+from backend.dbapi.models import User
+from backend.dbapi.database import getdb
+from backend.networkapi import schemas
 
 
 class UserCURD:
@@ -29,6 +30,13 @@ class UserCURD:
     @classmethod
     def createUserbyObject(cls, user: schemas.UserCreate):
         s = getdb()
+
+        existing_user = select(User).where(UserName=user.UserName)
+        existing_user = s.scalars(existing_user).first()
+        #existing_user = s.query(User).filter_by(UserName=user.UserName).first()
+        if existing_user is not None:
+            raise HTTPException(status_code=400, detail="User already exists")
+
         dbuser = User(
             #UserId=user.UserId,
             UserName=user.UserName,
@@ -40,6 +48,7 @@ class UserCURD:
         )
         s.add(dbuser)
         s.commit()
+        return {"status": "Success", "message": "Register Successful"}
         
     @classmethod
     def getUserByUserId(cls, userId):
@@ -93,21 +102,35 @@ class UserCURD:
         try:
             # 查找现有用户
             stmt = select(User).where(User.UserId == founduser.UserId)
+            result = s.execute(stmt).scalars().first()
+
+            if result.UserClass == 1:
+                stmt = update(User).where(User.UserId == founduser.UserId).values(UserClass=1)
+                s.execute(stmt)
+            stmt = update(User).where(User.UserId == founduser.UserId).values(UserName=founduser.UserName,motto=founduser.motto,gender=founduser.gender)
+            existing_user = select(User).where(UserName=founduser.UserName)
+            existing_user = s.scalars(existing_user).first()
+            # existing_user = s.query(User).filter_by(UserName=user.UserName).first()
+            if existing_user is not None:
+                raise HTTPException(status_code=400, detail="UserName already exists")
+            s.execute(stmt)
+            s.commit()
+        except NoResultFound:
+            raise HTTPException(status_code=404, detail="User not found")
+
+    @classmethod
+    def updateSharenumberbyObject(cls, founduser: schemas.UserResponse):
+        s = getdb()
+        try:
+            # 查找现有用户
+            stmt = select(User).where(User.UserId == founduser.UserId)
             result = s.execute(stmt)
             user = result.scalars().first()
 
             if not user:
                 raise HTTPException(status_code=404, detail="User not found")
-            if user.UserClass == 1:
-                user = user.values(UserClass=founduser.UserClass)
-            user = user.values(
-                UserName=founduser.UserName,
-                motto=founduser.motto,
-                gender=founduser.gender,
-                password=founduser.password,
-            )
-
-            s.execute(user)
+            stmt = update(User).where(User.UserId == founduser.UserId).values(numofshares=user.numofShares+1)
+            s.execute(stmt)
             s.commit()
         except NoResultFound:
             raise HTTPException(status_code=404, detail="User not found")
@@ -133,7 +156,15 @@ class UserCURD:
             s.commit()
         except NoResultFound:
             raise HTTPException(status_code=404, detail="User not found")
-
+    @classmethod
+    def getUserIdbyName(cls,UserName: str):
+        s=getdb()
+        stmt = select(User).where(User.UserName==UserName)
+        result = s.execute(stmt)
+        if not result:
+            raise HTTPException(status_code=404, detail="UserName not found")
+        result = result.scalars().first()
+        return result.UserId
     @classmethod
     def userLogin(cls, userinfo: schemas.UserLogin):
         s = getdb()
@@ -155,10 +186,10 @@ class UserCURD:
 if __name__ == "__main__":
     #mainuser = '{"UserClass":1, "UserName":"Hitsuhiro", "motto":"Hello", "LastLogintime":"2024-05-29 00:00:00", "gender":"Male", "password":"123456", "numofShares": 0}'#json
     #print(UserCURD.createUserbyJson(mainuser))
-    user2 = schemas.UserCreate(UserName="Brian",motto="Mamba Out",LastLogintime="2024-06-01 23:01:59",gender="Male",password="123456",passwordconfirm="123456",numofShares=0)
-    print(UserCURD.createUserbyObject(user2))
-    session = getdb()
-    main = UserCURD.getUserByUserId(2)
-    userinfo = schemas.UserLogin(UserName="Brian", password="123456")
-    print(UserCURD.userLogin(userinfo))
+    #user2 = schemas.UserResponse(UserName="Brian",motto="Mamba Out",LastLogintime="2024-06-01 23:01:59",gender="Male",password="123456",passwordconfirm="123456",numofShares=0)
+    #print(UserCURD.createUserbyObject(user2))
+    #main = UserCURD.getUserByUserId(2)
+    #userinfo = schemas.UserLogin(UserName="Brian", password="123456")
+    #print(UserCURD.userLogin(userinfo))
+    print(UserCURD.getUserIdbyName("Mitsuhiro"))
 

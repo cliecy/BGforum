@@ -1,20 +1,28 @@
-import { Post, Reply, Share, User, gender, isPost, userclass, } from "./typeDefinition";
+import {Post, Reply, ShareAndReplies, User, gender, userclass} from "./typeDefinition";
 import axios from "axios";
 import { FieldType } from "../Pages/Login";
 import storageUtils from "./storageUtils";
 import { RegisterFieldType } from "../Pages/Register";
 
 
-export function GetPostPage(): Reply[] {
-    var shareid = 0;
-
-    return [{
-        date: new Date(),
-        content: "ssss",
-        shareid: "123",
-        floor: 2323,
-        authorid: "sdadas"
-    }]
+export async function GetPostPage(shareId: number): Promise<ShareAndReplies> {
+    // 发送 GET 请求特定 ID 的帖子
+    let share: ShareAndReplies = {share:[], replies:[]};
+    const myaxios = axios.create()
+    myaxios.defaults.timeout = 10000
+    try {
+        await myaxios.get(`http://127.0.0.1:8000/shares/${shareId}`).then(function (response) {
+            console.log(response);
+            share = response.data;
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+    catch {
+        console.log("ERRORS BUT NOT AXIOS ERROR")
+    }
+    console.log(share)
+    return share
 }
 
 

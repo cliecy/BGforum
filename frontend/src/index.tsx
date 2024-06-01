@@ -6,7 +6,7 @@ import Login from "./Pages/Login";
 import { createRoot } from "react-dom/client";
 import PostPage from "./Pages/PostPage";
 import App from "./App";
-
+import React from "react";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -33,4 +33,6 @@ const router = createBrowserRouter([
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Failed to find the root element");
 const root = createRoot(rootElement);
-root.render(<RouterProvider router={router} />);
+root.render(<React.StrictMode>
+  <RouterProvider router={router} />
+  </React.StrictMode>);
