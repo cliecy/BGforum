@@ -7,12 +7,15 @@ export interface Post{
     IsLocked: boolean;
 }
 export interface Reply{
-    date: Date;
-    content: string;
-    shareid: string;
-    floor:number;
-    authorid:string;
+    Content: string;
+    Floor:number;
+    PostTime:Date;
+    ReplyId:number;
+    ReplyTo:number;
+    ShareId:number;
+    UserId:number;
 }
+
 export enum gender{
     male = 'male',
     female = 'female',
@@ -30,17 +33,7 @@ export interface User{
     lastlogintime: Date;
 }
 
-export interface Share{
-    share: Post[]
-    replies: Reply[]
+export interface ShareAndReplies{
+    share: Post[];
+    replies: Reply[];
 }
-
-export function isPost(obj: any): obj is Post {
-    return (
-      typeof obj.title === 'string' &&
-      typeof obj.content === 'string' &&
-      obj.date instanceof Date &&
-      typeof obj.shareid === 'string' &&
-      typeof obj.authorid === 'string'
-    );
-  }
