@@ -2,6 +2,12 @@ import type { FormProps } from 'antd';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { FieldType } from './Login';
 
+export type RegisterFieldType = {
+    userName?: string;
+    password?: string;
+    remember?: boolean;
+}
+
 const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
     console.log('Success:', values);
 };

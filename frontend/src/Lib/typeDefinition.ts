@@ -1,4 +1,4 @@
-export interface Post{
+export interface Post {
     ShareId: number | undefined;
     UserId: number;
     Content: string;
@@ -6,23 +6,23 @@ export interface Post{
     PostTime: string;
     IsLocked: boolean;
 }
-export interface Reply{
+export interface Reply {
     date: Date;
     content: string;
     shareid: string;
-    floor:number;
-    authorid:string;
+    floor: number;
+    authorid: string;
 }
-export enum gender{
+export enum gender {
     male = 'male',
     female = 'female',
 }
 
-export enum userclass{
+export enum userclass {
     Admin = 'admin',
-    Normal="Normal"
+    Normal = "Normal"
 }
-export interface User{
+export interface User {
     name: string;
     userid: string;
     userclass: userclass;
@@ -30,17 +30,17 @@ export interface User{
     lastlogintime: Date;
 }
 
-export interface Share{
+export interface Share {
     share: Post[]
     replies: Reply[]
 }
 
 export function isPost(obj: any): obj is Post {
     return (
-      typeof obj.title === 'string' &&
-      typeof obj.content === 'string' &&
-      obj.date instanceof Date &&
-      typeof obj.shareid === 'string' &&
-      typeof obj.authorid === 'string'
+        typeof obj.title === 'string' &&
+        typeof obj.content === 'string' &&
+        obj.date instanceof Date &&
+        typeof obj.shareid === 'string' &&
+        typeof obj.authorid === 'string'
     );
-  }
+}
