@@ -30,6 +30,7 @@ class BasicShareCRUD:
         )
         s.add(share)
         s.commit()
+        s.close()
 
     @classmethod
     def createShareByObject(cls, postedShare: schemas.ShareCreate):
@@ -43,6 +44,7 @@ class BasicShareCRUD:
         )
         s.add(dbShare)
         s.commit()
+        s.close()
 
     @classmethod
     def getShareByShareId(cls, shareId: int):
@@ -52,6 +54,8 @@ class BasicShareCRUD:
             result = s.scalars(stmt).all()
         except NoResultFound:
             raise HTTPException(status_code=404, detail="Share not found")
+        finally:
+            s.close()
         return result
 
     @classmethod
@@ -62,6 +66,8 @@ class BasicShareCRUD:
             result = s.execute(stmt).scalars().all()
         except NoResultFound:
             raise HTTPException(status_code=404, detail="Database Empty")
+        finally:
+            s.close()
         return result
 
     @classmethod
@@ -72,6 +78,7 @@ class BasicShareCRUD:
         for share in result:
             s.delete(share)
         s.commit()
+        s.close()
 
     @classmethod
     def updateShareByShareId(cls, shareId, newContent):
@@ -86,6 +93,8 @@ class BasicShareCRUD:
             s.commit()
         except NoResultFound:
             raise HTTPException(status_code=404, detail="Share not found")
+        finally:
+            s.close()
 
 
 if __name__ == '__main__':

@@ -27,6 +27,7 @@ class BasicReplyCRUD:
 
         s.add(reply)
         s.commit()
+        s.close()
 
     # from a pydantic object creates a reply
     @classmethod
@@ -43,6 +44,7 @@ class BasicReplyCRUD:
         )
         s.add(dbReply)
         s.commit()
+        s.close()
 
     # 查询一个帖子下的所有回复
     @classmethod
@@ -50,6 +52,7 @@ class BasicReplyCRUD:
         s = getdb()
         stmt = select(Reply).where(Reply.ShareId == shareId).order_by(Reply.Floor.asc())
         result = s.execute(stmt).scalars().all()
+        s.close()
         return result
 
     # 查询一个帖子中的特定楼层
@@ -58,6 +61,7 @@ class BasicReplyCRUD:
         s = getdb()
         stmt = select(Reply).where(and_(Reply.Floor == floor, Reply.ShareId == shareId))
         result = s.execute(stmt).scalars().all()
+        s.close()
         return result
 
     # locate a specified reply by share id and its floor
@@ -68,6 +72,7 @@ class BasicReplyCRUD:
         result = s.execute(stmt).scalars().all()
         s.delete(result[0])
         s.commit()
+        s.close()
 
     # receive a pydantic object and create a reply
     @classmethod
@@ -78,6 +83,7 @@ class BasicReplyCRUD:
         for i in result:
             s.delete(i)
         s.commit()
+        s.close()
 
     @classmethod
     def updateReply(cls, shareId, floor, newContent):
@@ -85,6 +91,7 @@ class BasicReplyCRUD:
         stmt = update(Reply).where(and_(Reply.Floor == floor, Reply.ShareId == shareId)).values(Content=newContent)
         s.execute(stmt)
         s.commit()
+        s.close()
 
 
 if __name__ == '__main__':

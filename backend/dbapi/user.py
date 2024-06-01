@@ -27,6 +27,8 @@ class UserCURD:
         )
         s.add(user)
         s.commit()
+        s.close()
+
     @classmethod
     def createUserbyObject(cls, user: schemas.UserCreate):
         s = getdb()
@@ -48,6 +50,7 @@ class UserCURD:
         )
         s.add(dbuser)
         s.commit()
+        s.close()
         return {"status": "Success", "message": "Register Successful"}
         
     @classmethod
@@ -55,6 +58,7 @@ class UserCURD:
         s = getdb()
         stmt = select(User).where(User.UserId == userId)
         result = s.scalars(stmt).first()
+        s.close()
         return result
 
     @classmethod
@@ -62,6 +66,7 @@ class UserCURD:
         s = getdb()
         stmt = select(User).where(User.UserName == userName)
         result = s.scalars(stmt)
+        s.close()
         return result
 
     @classmethod
@@ -94,6 +99,8 @@ class UserCURD:
             s.commit()
         except NoResultFound:
             raise HTTPException(status_code=404, detail="User not found")
+        finally:
+            s.close()
 
     @classmethod
     def updateUserbyObject(cls, founduser: schemas.UserResponse):
@@ -117,6 +124,8 @@ class UserCURD:
             s.commit()
         except NoResultFound:
             raise HTTPException(status_code=404, detail="User not found")
+        finally:
+            s.close()
 
     @classmethod
     def updateSharenumberbyObject(cls, founduser: schemas.UserResponse):
@@ -134,6 +143,8 @@ class UserCURD:
             s.commit()
         except NoResultFound:
             raise HTTPException(status_code=404, detail="User not found")
+        finally:
+            s.close()
     @classmethod
     async def deleteUserByUserId(cls, receivedJson, userId):
         jsondict = json.loads(receivedJson)
@@ -156,6 +167,9 @@ class UserCURD:
             s.commit()
         except NoResultFound:
             raise HTTPException(status_code=404, detail="User not found")
+        finally:
+            s.close()
+
     @classmethod
     def getUserIdbyName(cls,UserName: str):
         s=getdb()
@@ -164,7 +178,9 @@ class UserCURD:
         if not result:
             raise HTTPException(status_code=404, detail="UserName not found")
         result = result.scalars().first()
+        s.close()
         return result.UserId
+
     @classmethod
     def userLogin(cls, userinfo: schemas.UserLogin):
         s = getdb()
@@ -179,7 +195,7 @@ class UserCURD:
             raise HTTPException(status_code=404, detail="User not found")
         if password != user.password:
             raise HTTPException(status_code=401, detail="Incorrect password")
-
+        s.close()
         return {"status": "Success", "message": "Login Successful"}
 
 
