@@ -2,14 +2,18 @@ import React from "react";
 import { Button, Flex, Form, Input, Select } from "antd";
 import storageUtils from "../Lib/storageUtils";
 import { MakePost } from "../Lib/lib";
-
+import { formatDatefordate } from "../Lib/lib";
 export type PostFieldType = {
   content: string;
   title: string;
 };
 
 const mp = async (values: PostFieldType) => {
-  // await MakePost({UserId:2,Content:});
+  let now = new Date()
+  await MakePost(
+    {ShareId:undefined,UserId:2,Content:values.content,Title:values.title,PostTime:formatDatefordate(now),IsLocked:false}
+  )
+    ;
 };
 
 const MakePostComponent = () => {

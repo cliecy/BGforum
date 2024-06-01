@@ -3,6 +3,7 @@ import axios from "axios";
 import { FieldType } from "../Pages/Login";
 import storageUtils from "./storageUtils";
 import { RegisterFieldType } from "../Pages/Register";
+import Title from 'antd/es/skeleton/Title';
 
 
 export async function GetPostPage(shareId: number): Promise<ShareAndReplies> {
@@ -51,7 +52,10 @@ export async function GetAllPost(): Promise<Post[]> {
 export async function MakePost(post: Post): Promise<HTTPStatus> {
     let statusNum:number = 0;
     try {
-        await axios.post("http://127.0.0.1:8000/shares", post).then(function (response) {
+        await axios.post("http://127.0.0.1:8000/shares", 
+        {UserId:post.UserId,Content:post.Content,Title:post.Title,
+            PostTime:post.PostTime,IsLocked:post.IsLocked})
+            .then(function (response) {
             console.log(response);
         }).catch(function (error) {
             console.log(error);
@@ -132,7 +136,7 @@ export function formatDate(time: string | number) {
     }
   }
 
-  function formatDatefordate(date: Date): string {
+  export function formatDatefordate(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
