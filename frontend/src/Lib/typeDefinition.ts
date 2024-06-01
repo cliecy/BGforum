@@ -6,6 +6,14 @@ export interface Post {
     PostTime: string;
     IsLocked: boolean;
 }
+
+export interface MakePostType{
+    UserId: number;
+    Content: string;
+    Title: string;
+    PostTime: string;
+    IsLocked: boolean;
+}
 export interface Reply{
     Content: string;
     Floor:number;

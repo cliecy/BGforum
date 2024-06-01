@@ -1,4 +1,4 @@
-import { Post, ShareAndReplies, HTTPStatus } from './typeDefinition';
+import { Post, ShareAndReplies, HTTPStatus, MakePostType } from './typeDefinition';
 import axios from "axios";
 import { FieldType } from "../Pages/Login";
 import storageUtils from "./storageUtils";
@@ -8,7 +8,7 @@ import Title from 'antd/es/skeleton/Title';
 
 export async function GetPostPage(shareId: number): Promise<ShareAndReplies> {
     // 发送 GET 请求特定 ID 的帖子
-    let share: ShareAndReplies = {share:[], replies:[]};
+    let share: ShareAndReplies = { share: [], replies: [] };
     const myaxios = axios.create()
     myaxios.defaults.timeout = 10000
     try {
@@ -49,22 +49,22 @@ export async function GetAllPost(): Promise<Post[]> {
     return myposts
 }
 
-export async function MakePost(post: Post): Promise<HTTPStatus> {
-    let statusNum:number = 0;
+export async function MakePost(post: MakePostType): Promise<HTTPStatus> {
+    let statusNum: number = 0;
     try {
-        await axios.post("http://127.0.0.1:8000/shares", 
-        {UserId:post.UserId,Content:post.Content,Title:post.Title,
-            PostTime:post.PostTime,IsLocked:post.IsLocked})
+        await axios.post("http://127.0.0.1:8000/shares",post)
             .then(function (response) {
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error);
-        });
-        window.location.reload()
-        return {status:statusNum}
+                console.log(response);
+                window.location.reload()
+                return { status: statusNum }
+            }).catch(function (error) {
+                console.log(error);
+                return { status: statusNum }
+            });
+        return { status: statusNum }
     } catch {
         console.log("ERRORS BUT NOT AXIOS ERROR")
-        return {status:statusNum}
+        return { status: statusNum }
     }
 }
 // export function
@@ -76,7 +76,7 @@ interface LoginStatus {
 }
 
 export async function LoginFunc(values: FieldType): Promise<HTTPStatus> {
-    let statusNum:number = 0;
+    let statusNum: number = 0;
     let myresponse: LoginStatus = { status: "", message: "" };
     try {
         await axios.post('http://127.0.0.1:8000/users/login', { UserName: values.userName, password: values.password }).then(function (response) {
@@ -95,11 +95,11 @@ export async function LoginFunc(values: FieldType): Promise<HTTPStatus> {
                 }
         }
         window.location.reload()
-        return {status:statusNum}
+        return { status: statusNum }
     }
     catch {
         console.log("ERRORS BUT NOT AXIOS ERROR")
-        return {status:statusNum}
+        return { status: statusNum }
     }
 }
 
@@ -116,27 +116,27 @@ export function Logout(): void {
 
 export function formatDate(time: string | number) {
     if (time === null) {
-      return ''
+        return ''
     } else {
-      const date = new Date(time)
-      const y = date.getFullYear()
-      let m: string | number = date.getMonth() + 1
-      m = m < 10 ? `0${String(m)}` : m
-      let d: string | number = date.getDate()
-      d = d < 10 ? `0${String(d)}` : d
-      let h: string | number = date.getHours()
-      h = h < 10 ? `0${String(h)}` : h
-      let minute: string | number = date.getMinutes()
-      minute = minute < 10 ? `0${String(minute)}` : minute
-      let second: string | number = date.getSeconds()
-      second = second < 10 ? `0${String(second)}` : second
-      return `${String(y)}-${String(m)}-${String(d)}   ${String(h)}:${String(
-        minute
-      )}:${String(second)}`
+        const date = new Date(time)
+        const y = date.getFullYear()
+        let m: string | number = date.getMonth() + 1
+        m = m < 10 ? `0${String(m)}` : m
+        let d: string | number = date.getDate()
+        d = d < 10 ? `0${String(d)}` : d
+        let h: string | number = date.getHours()
+        h = h < 10 ? `0${String(h)}` : h
+        let minute: string | number = date.getMinutes()
+        minute = minute < 10 ? `0${String(minute)}` : minute
+        let second: string | number = date.getSeconds()
+        second = second < 10 ? `0${String(second)}` : second
+        return `${String(y)}-${String(m)}-${String(d)}   ${String(h)}:${String(
+            minute
+        )}:${String(second)}`
     }
-  }
+}
 
-  export function formatDatefordate(date: Date): string {
+export function formatDatefordate(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
@@ -149,12 +149,14 @@ export function formatDate(time: string | number) {
 
 
 
-export async function RegisterFunc(values:RegisterFieldType):Promise<HTTPStatus>{
-    let statusNum:number = 0;
+export async function RegisterFunc(values: RegisterFieldType): Promise<HTTPStatus> {
+    let statusNum: number = 0;
     const now = new Date();
     try {
-        await axios.post('http://127.0.0.1:8000/users', { UserName: values.userName,motto:"LEO is really excellent",LastLogintime:formatDatefordate(now)
-        ,gender:"Male", password: values.password,numofShares:0}).then(function (response) {
+        await axios.post('http://127.0.0.1:8000/users', {
+            UserName: values.userName, motto: "LEO is really excellent", LastLogintime: formatDatefordate(now)
+            , gender: "Male", password: values.password, numofShares: 0
+        }).then(function (response) {
             console.log(response);
             statusNum = response.status;
         }).catch(function (error) {
@@ -168,17 +170,17 @@ export async function RegisterFunc(values:RegisterFieldType):Promise<HTTPStatus>
                     storageUtils.saveUser({ username: values.userName, password: values.password })
                 }
             window.location.reload()
-            return {status:statusNum}
+            return { status: statusNum }
         }
-        else{
+        else {
             console.log("Register Error")
-            return {status:statusNum}
+            return { status: statusNum }
         }
 
     }
     catch {
         console.log("ERRORS BUT NOT AXIOS ERROR")
-        return {status:statusNum}
+        return { status: statusNum }
     }
 }
 
