@@ -62,7 +62,7 @@ class BasicShareCRUD:
     @classmethod
     def getAllShares(cls):
         s = getdb()
-        stmt = select(Share).order_by(Share.ShareId)
+        stmt = select(Share).order_by(Share.PostTime.desc())
         try:
             result = s.execute(stmt).scalars().all()
         except NoResultFound:
