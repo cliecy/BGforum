@@ -60,7 +60,7 @@ class UserCreate(BaseModel):
     LastLogintime: datetime
     gender: str
     password: str
-    passwordconfirm: str
+    # passwordconfirm: str
     numofShares: int
 
 

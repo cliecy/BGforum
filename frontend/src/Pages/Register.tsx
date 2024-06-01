@@ -1,15 +1,19 @@
 import type { FormProps } from 'antd';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { FieldType } from './Login';
-
+import { RegisterFunc } from '../Lib/lib';
+import { Redirect } from './Login';
+import storageUtils from '../Lib/storageUtils';
 export type RegisterFieldType = {
     userName?: string;
     password?: string;
     remember?: boolean;
 }
 
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     console.log('Success:', values);
+    await RegisterFunc(values)
+
 };
 
 const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
@@ -27,6 +31,7 @@ const Login: React.FC = () => (
         onFinishFailed={onFinishFailed}
         autoComplete="off"
     >
+        {storageUtils.getUser() && <Redirect/>}
         <Form.Item<FieldType>
             label="Username"
             name="userName"
