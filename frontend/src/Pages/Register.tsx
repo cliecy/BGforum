@@ -21,7 +21,8 @@ const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
 };
 
 const Login: React.FC = () => (
-    <Form
+    <>
+        <Form
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
@@ -84,6 +85,9 @@ const Login: React.FC = () => (
             </Button>
         </Form.Item>
     </Form>
+    {}
+    </>
+
 );
 
 export default Login;

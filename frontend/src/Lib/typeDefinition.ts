@@ -37,3 +37,7 @@ export interface ShareAndReplies{
     share: Post[];
     replies: Reply[];
 }
+
+export interface HTTPStatus{
+    status:number;
+}

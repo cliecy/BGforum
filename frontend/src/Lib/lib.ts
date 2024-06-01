@@ -1,4 +1,4 @@
-import {Post, Reply, ShareAndReplies, User, gender, userclass} from "./typeDefinition";
+import { Post, ShareAndReplies, HTTPStatus } from './typeDefinition';
 import axios from "axios";
 import { FieldType } from "../Pages/Login";
 import storageUtils from "./storageUtils";
@@ -48,15 +48,19 @@ export async function GetAllPost(): Promise<Post[]> {
     return myposts
 }
 
-export async function MakePost(post: Post): Promise<void> {
+export async function MakePost(post: Post): Promise<HTTPStatus> {
+    let statusNum:number = 0;
     try {
         await axios.post("http://127.0.0.1:8000/shares", post).then(function (response) {
             console.log(response);
         }).catch(function (error) {
             console.log(error);
         });
+        window.location.reload()
+        return {status:statusNum}
     } catch {
         console.log("ERRORS BUT NOT AXIOS ERROR")
+        return {status:statusNum}
     }
 }
 // export function
@@ -67,28 +71,32 @@ interface LoginStatus {
     message: string
 }
 
-export async function LoginFunc(values: FieldType): Promise<void> {
+export async function LoginFunc(values: FieldType): Promise<HTTPStatus> {
+    let statusNum:number = 0;
     let myresponse: LoginStatus = { status: "", message: "" };
     try {
         await axios.post('http://127.0.0.1:8000/users/login', { UserName: values.userName, password: values.password }).then(function (response) {
             console.log(response);
             myresponse = response.data
+            statusNum = response.status
         }).catch(function (error) {
             console.log(error);
         });
         if (myresponse.status === "Success") {
             console.log("LOGIN SUCCESS")
-            if (values.userName != undefined && values.password != undefined)
-                if (values.remember == true) {
+            if (values.userName !== undefined && values.password !== undefined)
+                if (values.remember === true) {
                     console.log(values)
                     storageUtils.saveUser({ username: values.userName, password: values.password })
                 }
         }
+        window.location.reload()
+        return {status:statusNum}
     }
     catch {
         console.log("ERRORS BUT NOT AXIOS ERROR")
+        return {status:statusNum}
     }
-    window.location.reload()
 }
 
 // export async function RegisterFunc(values:)
@@ -137,29 +145,36 @@ export function formatDate(time: string | number) {
 
 
 
-export async function RegisterFunc(values:RegisterFieldType):Promise<void>{
-    let myresponse: LoginStatus = { status: "", message: "" };
+export async function RegisterFunc(values:RegisterFieldType):Promise<HTTPStatus>{
+    let statusNum:number = 0;
     const now = new Date();
     try {
         await axios.post('http://127.0.0.1:8000/users', { UserName: values.userName,motto:"LEO is really excellent",LastLogintime:formatDatefordate(now)
         ,gender:"Male", password: values.password,numofShares:0}).then(function (response) {
             console.log(response);
-            myresponse = response.data
+            statusNum = response.status;
         }).catch(function (error) {
             console.log(error);
         });
-        if (myresponse.status === "Success") {
+        if (statusNum === 200) {
             console.log("Register and Login SUCCESS")
-            if (values.userName != undefined && values.password != undefined)
-                if (values.remember == true) {
+            if (values.userName !== undefined && values.password !== undefined)
+                if (values.remember === true) {
                     console.log(values)
                     storageUtils.saveUser({ username: values.userName, password: values.password })
                 }
+            window.location.reload()
+            return {status:statusNum}
         }
+        else{
+            console.log("Register Error")
+            return {status:statusNum}
+        }
+
     }
     catch {
         console.log("ERRORS BUT NOT AXIOS ERROR")
+        return {status:statusNum}
     }
-    // window.location.reload()
 }
 
