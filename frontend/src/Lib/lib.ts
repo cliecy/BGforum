@@ -147,7 +147,12 @@ export function formatDatefordate(date: Date): string {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
-// export async function
+export async function GetUserIdByUserName():Promise<string>{
+    let username:string = "";
+    // await axios.get()
+
+    return username
+}
 
 export async function RegisterFunc(values: RegisterFieldType): Promise<HTTPStatus> {
     let statusNum: number = 0;
