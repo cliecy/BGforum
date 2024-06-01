@@ -32,7 +32,6 @@ def createReply(reply: schemas.ReplyCreate):
 
 @router.post('/users')
 def registerUser(user: schemas.UserCreate):
-    print("HELLO")
     return Operations.createUserbyObject(user)
 
 @router.post('/users/login')

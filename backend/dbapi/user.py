@@ -32,7 +32,6 @@ class UserCURD:
     @classmethod
     def createUserbyObject(cls, user: schemas.UserCreate):
         s = getdb()
-        print("HELLO2")
         existing_user = select(User).where(User.UserName==user.UserName)
         existing_user = s.scalars(existing_user).first()
         #existing_user = s.query(User).filter_by(UserName=user.UserName).first()
