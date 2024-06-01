@@ -33,14 +33,13 @@ def createReply(reply: schemas.ReplyCreate):
 
 @router.post('/users')
 def registerUser(user: schemas.UserCreate):
-    print("HELLO")
     return Operations.createUserbyObject(user)
 
 @router.post('/users/login')
 def UserLogin(user: schemas.UserLogin):
     return Operations.userLogin(user)
     
-@router.get('/users/{userId}', response_model=schemas.UserResponse)
+@router.get('/users/{getuser}', response_model=schemas.UserResponse)
 def getUser(userId: int):
     return Operations.getUserByUserId(userId)
 
@@ -48,6 +47,6 @@ def getUser(userId: int):
 def userupdate(user: schemas.UserResponse):
     return Operations.updateUser(user)
 
-@router.get('/users/{userName}')
+@router.get('/users/{getuserName}')
 def getUserId(UserName: str):
     return Operations.getUserIdbyName(UserName)

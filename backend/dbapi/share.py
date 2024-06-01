@@ -35,6 +35,7 @@ class BasicShareCRUD:
     @classmethod
     def createShareByObject(cls, postedShare: schemas.ShareCreate):
         s = getdb()
+        print('Hello2')
         dbShare = Share(
             UserId=postedShare.UserId,
             Content=postedShare.Content,

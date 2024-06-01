@@ -64,7 +64,7 @@ class UserCreate(BaseModel):
 
 
 class UserResponse(BaseModel):
-    #UserId: int
+    UserId: int
     #UserClass: int
     LastLogintime: datetime
     UserName: str
