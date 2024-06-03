@@ -22,4 +22,4 @@ cd frontend
 npm install
 npm run start
 ```
-Then the backend server runs on the `localhost:8000`
+Then the frontend website runs on the `localhost:3000`
